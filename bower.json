@@ -1,0 +1,23 @@
+{
+  "name": "crud",
+  "version": "0.0.1",
+  "authors": [
+    "Domas <domas.bitvinskas@me.com>"
+  ],
+  "description": "Out-of-the-box connection to the Rails backend",
+  "main": "crud.js",
+  "keywords": [
+    "queries",
+    "rest",
+    "rails",
+    "backend"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
