@@ -25,11 +25,43 @@ CRUD.prototype.where = function(params) {
   });
 };
 
-CRUD.prototype.sync = function() {
+// CRUD.prototype.listenKey = function(object, key) {
+//   _this = this;
+//
+//   Object.defineProperty(object, key, {
+//     get: function() {
+//       console.log('get' + object['__' + key]);
+//       return object['__' + key];
+//     },
+//     set: function(value) {
+//       if (_.isArray(value)) {
+//         _.each(value, function(member) {
+//           if (_.isObject(member)) {
+//             _.each(_.keys(member), function(member_key) {
+//               _this.listenKey(member, member_key);
+//             });
+//           }
+//         });
+//       }
+//
+//       object['__' + key] = value;
+//       console.log('SET ' + object['__' + key]);
+//
+//       console.log('change');
+//     }
+//   });
+// };
+//
+// CRUD.prototype.listen = function(object) {
+//   _.each(_.keys(object), function(key) {
+//   });
+// };
+
+CRUD.prototype.syncDiff = function(new_records, old_records) {
   var _this = this;
 
-  var dirty_records = _.select(_this.records, function(new_record) {
-    var record_with_same_id = _.detect(_this.pristine_records, function(old_record) {
+  var dirty_records = _.select(new_records, function(new_record) {
+    var record_with_same_id = _.detect(old_records, function(old_record) {
       return new_record.id == old_record.id;
     });
 
