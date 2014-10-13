@@ -1,24 +1,8 @@
 # Godfather.js
 
+![Godfather](https://cloud.githubusercontent.com/assets/1877286/4621676/2998b296-532f-11e4-91ed-f9b246d15568.jpg)
+
 Exposes ActiveRecord records to the Javascript side.
-
-## Installation
-
-The javascript part is installed via bower.
-
-Use ``godfather`` gem and create a crud controller for a model.
-
-```ruby
-class UsersController < ApplicationController
-  include Godfather::Controller
-
-  def model
-    User
-  end
-end
-```
-
-Mount the controller on a route (f.e. ``/users``)
 
 ## Usage
 
@@ -33,7 +17,7 @@ Mount the controller on a route (f.e. ``/users``)
 You can specify scope for the connection.
 
 ```js
-  User = new Godfather('/users', city: 'New York');
+  User = new Godfather('/users', { city: 'New York' });
 
   User.where({ name: 'John' }).then(function(users) {
     alert('You are a New Yorker called John');
@@ -45,7 +29,7 @@ You can specify scope for the connection.
   });
 ```
 
-Specify id when updating or destroying the record.
+Specify ``id`` when updating or destroying the record.
 
 ```js
   User = new Godfather('/users');
@@ -58,7 +42,51 @@ Specify id when updating or destroying the record.
   });
 ```
 
+## Installation
+
+The library has two parts and has Lodash as a dependency.
+
+#### I. Javascript part
+
+Via npm
+
+```
+npm install godfather
+```
+
+Or via bower
+
+```
+bower install godfather
+```
+
+#### II. Ruby on Rails part
+
+1. Add ``gem 'godfather'`` to ``Gemfile``.
+
+2. Create a controller with method ``model`` which returns the model to be accessed.
+Also include ``Godfather::Controller``
+
+```ruby
+class UsersController < ApplicationController
+  include Godfather::Controller
+
+  def model
+    User
+  end
+end
+```
+
+3. Add a route to ``routes.rb``
+
+```ruby
+# This creates POST routes on /users to UsersController
+# For where, create, update, destroy
+
+godfather_of :users
+```
+
 ## Sponsors
 
-The initial seed of Godfather was shamefully sponsored by SameSystem and
+The initial seed of Godfather was shamefully sponsored by [SameSystem](http://www.samesystem.com) and
 developed during my time there.
