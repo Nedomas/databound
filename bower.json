@@ -1,11 +1,14 @@
 {
-  "name": "godfather.js",
-  "version": "0.0.2",
+  "name": "godfather",
+  "version": "0.0.1",
   "authors": [
     "Domas <domas.bitvinskas@me.com>"
   ],
-  "description": "ActiveRecord records exposed to the Javascript side.",
-  "main": "godfather.js",
+  "description": "ActiveRecord records exposed to the Javascript side and guarded by guns.",
+  "main": "dist/godfather.js",
+  "dependencies": {
+    "lodash": "2.4.1"
+  },
   "keywords": [
     "queries",
     "rest",
