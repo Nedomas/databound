@@ -57,3 +57,8 @@ Specify id when updating or destroying the record.
     // resp.success
   });
 ```
+
+## Sponsors
+
+The initial seed of Godfather was shamefully sponsored by SameSystem and
+developed during my time there.
