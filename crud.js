@@ -25,38 +25,6 @@ CRUD.prototype.where = function(params) {
   });
 };
 
-// CRUD.prototype.listenKey = function(object, key) {
-//   _this = this;
-//
-//   Object.defineProperty(object, key, {
-//     get: function() {
-//       console.log('get' + object['__' + key]);
-//       return object['__' + key];
-//     },
-//     set: function(value) {
-//       if (_.isArray(value)) {
-//         _.each(value, function(member) {
-//           if (_.isObject(member)) {
-//             _.each(_.keys(member), function(member_key) {
-//               _this.listenKey(member, member_key);
-//             });
-//           }
-//         });
-//       }
-//
-//       object['__' + key] = value;
-//       console.log('SET ' + object['__' + key]);
-//
-//       console.log('change');
-//     }
-//   });
-// };
-//
-// CRUD.prototype.listen = function(object) {
-//   _.each(_.keys(object), function(key) {
-//   });
-// };
-
 CRUD.prototype.syncDiff = function(new_records, old_records) {
   var _this = this;
 
@@ -110,8 +78,8 @@ CRUD.prototype.data = function(params) {
   };
 };
 
+// overritable; must be POST
 CRUD.prototype.request = function(action, params) {
-  // must be GET
   return $j.getJSON(this.url(action), this.data(params));
 };
 
