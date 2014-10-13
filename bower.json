@@ -1,11 +1,11 @@
 {
-  "name": "crud",
-  "version": "0.0.1",
+  "name": "godfather",
+  "version": "0.0.2",
   "authors": [
     "Domas <domas.bitvinskas@me.com>"
   ],
-  "description": "Out-of-the-box connection to the Rails backend",
-  "main": "crud.js",
+  "description": "ActiveRecord records exposed to the Javascript side.",
+  "main": "godfather.js",
   "keywords": [
     "queries",
     "rest",
