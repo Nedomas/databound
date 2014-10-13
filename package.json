@@ -1,26 +1,16 @@
 {
   "name": "godfather",
   "version": "0.0.1",
-  "authors": [
-    "Domas <domas.bitvinskas@me.com>"
-  ],
+  "author": "Domas <domas.bitvinskas@me.com>",
   "description": "ActiveRecord records exposed to the Javascript side and guarded by guns.",
   "main": "dist/godfather.js",
   "dependencies": {
     "lodash": "2.4.1"
   },
-  "license": "MIT",
   "keywords": [
     "queries",
     "rest",
     "rails",
     "backend"
-  ],
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
   ]
 }
