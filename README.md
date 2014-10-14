@@ -2,7 +2,7 @@
 
 ![Godfather](https://cloud.githubusercontent.com/assets/1877286/4621676/2998b296-532f-11e4-91ed-f9b246d15568.jpg)
 
-Exposes ActiveRecord records to the Javascript side.
+ActiveRecord exposed to the Javascript side and guarded by guns. 
 
 ## Usage
 
@@ -71,6 +71,8 @@ Also include ``Godfather::Controller``
 class UsersController < ApplicationController
   include Godfather
 
+  private
+  
   def model
     User
   end
@@ -87,6 +89,39 @@ godfather_of :users
 ```
 
 For more info go to [Godfather gem repo](https://github.com/Nedomas/godfather)
+
+## DSL
+
+**Godfather.js** supports any attribute DSL via method override.
+
+```js
+  User = new Godfather('/users', { city: 'hottest_city' });
+  
+  User.create(name: 'Vikki').then(function(new_user) {
+    // Vikki is from Miami
+    alert(new_user.name + ' is from ' + new_user.city);
+  });
+```
+
+```ruby
+class UsersController < ApplicationController
+  include Godfather
+
+  private
+  
+  def model
+    User
+  end
+  
+  def override!(name, value, data)
+    if name == :city and value == 'hottest_city'
+      'Miami'
+    else
+      super
+    end
+  end
+end
+```
 
 ## Sponsors
 
