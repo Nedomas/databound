@@ -141,6 +141,22 @@ Library supports minimalistic version of computed properties. It attaches the pr
   });
 ```
 
+## Extra find scopes
+
+These scopes are used only for finding the records and are not used when creating the record.
+
+```js
+  User = new Godfather('/users', 
+    { city: 'Miami' },
+    { extra_find_scopes: [{ city: 'New york' }] }
+  );
+  
+  User.create(name: 'Nikki').then(function() {
+    var all_users = User.takeAll();
+    // ['Miami', 'New york']
+    alert(_.map(all_users, function(user) { return user.city }));
+  });
+```
 
 ## Sponsors
 
