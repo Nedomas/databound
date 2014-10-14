@@ -123,6 +123,25 @@ class UsersController < ApplicationController
 end
 ```
 
+## Semi-computed properties
+
+Library supports minimalistic version of computed properties. It attaches the properties on every record after the response from server.
+
+```js
+  User = new Godfather('/users', { city: 'hottest_city' });
+  User.computed = function(user) {
+    return {
+      full_name: user.first_name + ' ' + user.last_name;
+    };
+  };
+  
+  User.findBy(name: 'Vikki').then(function(user) {
+    // Vikki Minaj
+    alert(user.full_name);
+  });
+```
+
+
 ## Sponsors
 
 The initial seed of Godfather was shamefully sponsored by [SameSystem](http://www.samesystem.com) and
