@@ -1,6 +1,6 @@
 {
   "name": "godfather",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Domas <domas.bitvinskas@me.com>",
   "description": "ActiveRecord records exposed to the Javascript side and guarded by guns.",
   "main": "dist/godfather.js",
