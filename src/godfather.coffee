@@ -2,6 +2,7 @@ Godfather = (endpoint, scope, options) ->
   @endpoint = endpoint
   @scope = scope or {}
   @options = options or {}
+  # todo: rename to extra_where_scopes
   @extra_find_scopes = @options.extra_find_scopes or []
   @records = []
   @seeds = []
@@ -72,14 +73,6 @@ Godfather::data = (params) ->
   scope: JSON.stringify(@scope)
   extra_find_scopes: JSON.stringify(@extra_find_scopes)
   data: JSON.stringify(params)
-
-Godfather::refresh = ->
-  _this = @
-
-  @where().then (resp) ->
-    _this.records = _.clone(_this.seeds)
-    _.extend _this.records, resp
-    _this.promise _this.records
 
 Godfather::take = (id) ->
   _.detect @records, (record) ->
