@@ -3,15 +3,15 @@ Godfather = (endpoint, scope, options) ->
   @scope = scope or {}
   @options = options or {}
   @extra_find_scopes = @options.extra_find_scopes or []
-  @records = {}
-  @seeds = {}
+  @records = []
+  @seeds = []
   @properties = []
   return
 
 Godfather.API_URL = ""
 # overritable; must be POST
 Godfather::request = (action, params) ->
-  $j.post @url(action), @data(params)
+  $j.post @url(action), @data(params), 'json'
 
 # overritable
 Godfather::promise = (result) ->
@@ -20,15 +20,15 @@ Godfather::promise = (result) ->
   deferred.promise()
 
 Godfather::where = (params) ->
-  _this = this
+  _this = @
 
-  @request("where", params).then (records) ->
+  @request('where', params).then (records) ->
+    records = records.concat(_this.seeds)
     computed_records = _.map(records, (record) ->
       _this.withComputedProps record
     )
     _this.properties = _.keys(records[0])
     _this.records = _.sortBy(computed_records, 'id')
-    _this.pristine_records = _.cloneDeep(_this.records)
     _this.promise _this.records
 
 Godfather::create = (params) ->
@@ -40,14 +40,30 @@ Godfather::update = (params) ->
 Godfather::destroy = (params) ->
   @requestAndRefresh 'destroy', params
 
-Godfather::withComputedProps = (record) ->
-  _.extend record, @computed(record)
+Godfather::requestAndRefresh = (action, params) ->
+  _this = @
+
+  @request(action, params).then (resp) ->
+    _this.where().then ->
+      _this.promise resp
 
 Godfather::find = (id) ->
-  _this = this
+  _this = @
 
-  @refresh().then ->
+  @where(id: id).then ->
     _this.promise _this.take(id)
+
+Godfather::findBy = (params) ->
+  _this = @
+
+  @where(params).then (resp) ->
+    _this.promise _.first(_.values(resp))
+
+Godfather::withComputedProps = (record) ->
+  if @computed
+    _.extend record, @computed(record)
+  else
+    record
 
 Godfather::url = (action) ->
   "#{Godfather.API_URL}/#{@endpoint}/#{action}"
@@ -56,13 +72,6 @@ Godfather::data = (params) ->
   scope: JSON.stringify(@scope)
   extra_find_scopes: JSON.stringify(@extra_find_scopes)
   data: JSON.stringify(params)
-
-Godfather::requestAndRefresh = (action, params) ->
-  _this = @
-
-  @request(action, params).then (resp) ->
-    _this.refresh().then ->
-      _this.promise resp
 
 Godfather::refresh = ->
   _this = @
@@ -74,7 +83,7 @@ Godfather::refresh = ->
 
 Godfather::take = (id) ->
   _.detect @records, (record) ->
-    record.id is id
+    parseInt(record.id) == parseInt(id)
 
 Godfather::takeAll = ->
   @records

@@ -5,15 +5,15 @@ Godfather = function(endpoint, scope, options) {
   this.scope = scope || {};
   this.options = options || {};
   this.extra_find_scopes = this.options.extra_find_scopes || [];
-  this.records = {};
-  this.seeds = {};
+  this.records = [];
+  this.seeds = [];
   this.properties = [];
 };
 
 Godfather.API_URL = "";
 
 Godfather.prototype.request = function(action, params) {
-  return $j.post(this.url(action), this.data(params));
+  return $j.post(this.url(action), this.data(params), 'json');
 };
 
 Godfather.prototype.promise = function(result) {
@@ -26,14 +26,14 @@ Godfather.prototype.promise = function(result) {
 Godfather.prototype.where = function(params) {
   var _this;
   _this = this;
-  return this.request("where", params).then(function(records) {
+  return this.request('where', params).then(function(records) {
     var computed_records;
+    records = records.concat(_this.seeds);
     computed_records = _.map(records, function(record) {
       return _this.withComputedProps(record);
     });
     _this.properties = _.keys(records[0]);
     _this.records = _.sortBy(computed_records, 'id');
-    _this.pristine_records = _.cloneDeep(_this.records);
     return _this.promise(_this.records);
   });
 };
@@ -50,16 +50,40 @@ Godfather.prototype.destroy = function(params) {
   return this.requestAndRefresh('destroy', params);
 };
 
-Godfather.prototype.withComputedProps = function(record) {
-  return _.extend(record, this.computed(record));
+Godfather.prototype.requestAndRefresh = function(action, params) {
+  var _this;
+  _this = this;
+  return this.request(action, params).then(function(resp) {
+    return _this.where().then(function() {
+      return _this.promise(resp);
+    });
+  });
 };
 
 Godfather.prototype.find = function(id) {
   var _this;
   _this = this;
-  return this.refresh().then(function() {
+  return this.where({
+    id: id
+  }).then(function() {
     return _this.promise(_this.take(id));
   });
+};
+
+Godfather.prototype.findBy = function(params) {
+  var _this;
+  _this = this;
+  return this.where(params).then(function(resp) {
+    return _this.promise(_.first(_.values(resp)));
+  });
+};
+
+Godfather.prototype.withComputedProps = function(record) {
+  if (this.computed) {
+    return _.extend(record, this.computed(record));
+  } else {
+    return record;
+  }
 };
 
 Godfather.prototype.url = function(action) {
@@ -74,16 +98,6 @@ Godfather.prototype.data = function(params) {
   };
 };
 
-Godfather.prototype.requestAndRefresh = function(action, params) {
-  var _this;
-  _this = this;
-  return this.request(action, params).then(function(resp) {
-    return _this.refresh().then(function() {
-      return _this.promise(resp);
-    });
-  });
-};
-
 Godfather.prototype.refresh = function() {
   var _this;
   _this = this;
@@ -96,7 +110,7 @@ Godfather.prototype.refresh = function() {
 
 Godfather.prototype.take = function(id) {
   return _.detect(this.records, function(record) {
-    return record.id === id;
+    return parseInt(record.id) === parseInt(id);
   });
 };
 
