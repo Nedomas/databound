@@ -69,7 +69,7 @@ Also include ``Godfather::Controller``
 
 ```ruby
 class UsersController < ApplicationController
-  include Godfather::Controller
+  include Godfather
 
   def model
     User
@@ -85,6 +85,8 @@ end
 
 godfather_of :users
 ```
+
+For more info go to [Godfather gem repo](https://github.com/Nedomas/godfather)
 
 ## Sponsors
 
