@@ -12,6 +12,17 @@ Godfather = function(endpoint, scope, options) {
 
 Godfather.API_URL = "";
 
+Godfather.prototype.request = function(action, params) {
+  return $j.post(this.url(action), this.data(params));
+};
+
+Godfather.prototype.promise = function(result) {
+  var deferred;
+  deferred = $j.Deferred();
+  deferred.resolve(result);
+  return deferred.promise();
+};
+
 Godfather.prototype.where = function(params) {
   var _this;
   _this = this;
@@ -21,25 +32,22 @@ Godfather.prototype.where = function(params) {
       return _this.withComputedProps(record);
     });
     _this.properties = _.keys(records[0]);
-    _this.records = _.sortBy(computed_records, "id");
+    _this.records = _.sortBy(computed_records, 'id');
     _this.pristine_records = _.cloneDeep(_this.records);
     return _this.promise(_this.records);
   });
 };
 
-Godfather.prototype.syncDiff = function(new_records, old_records) {
-  var dirty_records, _this;
-  _this = this;
-  dirty_records = _.select(new_records, function(new_record) {
-    var record_with_same_id;
-    record_with_same_id = _.detect(old_records, function(old_record) {
-      return new_record.id === old_record.id;
-    });
-    return JSON.stringify(_.pick(record_with_same_id, _this.properties)) !== JSON.stringify(_.pick(new_record, _this.properties));
-  });
-  _.each(dirty_records, function(record) {
-    _this.update(record);
-  });
+Godfather.prototype.create = function(params) {
+  return this.requestAndRefresh('create', params);
+};
+
+Godfather.prototype.update = function(params) {
+  return this.requestAndRefresh('update', params);
+};
+
+Godfather.prototype.destroy = function(params) {
+  return this.requestAndRefresh('destroy', params);
 };
 
 Godfather.prototype.withComputedProps = function(record) {
@@ -54,20 +62,8 @@ Godfather.prototype.find = function(id) {
   });
 };
 
-Godfather.prototype.create = function(params) {
-  return this.requestAndRefresh("create", params);
-};
-
-Godfather.prototype.update = function(params) {
-  return this.requestAndRefresh("update", params);
-};
-
-Godfather.prototype.destroy = function(params) {
-  return this.requestAndRefresh("destroy", params);
-};
-
 Godfather.prototype.url = function(action) {
-  return Godfather.API_URL + "/" + this.endpoint + "/" + action;
+  return "" + Godfather.API_URL + "/" + this.endpoint + "/" + action;
 };
 
 Godfather.prototype.data = function(params) {
@@ -76,10 +72,6 @@ Godfather.prototype.data = function(params) {
     extra_find_scopes: JSON.stringify(this.extra_find_scopes),
     data: JSON.stringify(params)
   };
-};
-
-Godfather.prototype.request = function(action, params) {
-  return $j.getJSON(this.url(action), this.data(params));
 };
 
 Godfather.prototype.requestAndRefresh = function(action, params) {
@@ -113,12 +105,20 @@ Godfather.prototype.takeAll = function() {
 };
 
 Godfather.prototype.injectSeedRecords = function(records) {
-  this.seeds = records;
+  return this.seeds = records;
 };
 
-Godfather.prototype.promise = function(result) {
-  var deferred;
-  deferred = $j.Deferred();
-  deferred.resolve(result);
-  return deferred.promise();
+Godfather.prototype.syncDiff = function(new_records, old_records) {
+  var dirty_records, _this;
+  _this = this;
+  dirty_records = _.select(new_records, function(new_record) {
+    var record_with_same_id;
+    record_with_same_id = _.detect(old_records, function(old_record) {
+      return new_record.id === old_record.id;
+    });
+    return JSON.stringify(_.pick(record_with_same_id, _this.properties)) !== JSON.stringify(_.pick(new_record, _this.properties));
+  });
+  return _.each(dirty_records, function(record) {
+    return _this.update(record);
+  });
 };
