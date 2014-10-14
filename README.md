@@ -48,13 +48,13 @@ The library has two parts and has Lodash as a dependency.
 
 #### I. Javascript part
 
-Via npm
+Via ``npm``
 
 ```
 npm install godfather
 ```
 
-Or via bower
+or via ``bower``
 
 ```
 bower install godfather
@@ -62,9 +62,9 @@ bower install godfather
 
 #### II. Ruby on Rails part
 
-1. Add ``gem 'godfather'`` to ``Gemfile``.
+**1.** Add ``gem 'godfather'`` to ``Gemfile``.
 
-2. Create a controller with method ``model`` which returns the model to be accessed.
+**2.** Create a controller with method ``model`` which returns the model to be accessed.
 Also include ``Godfather::Controller``
 
 ```ruby
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 end
 ```
 
-3. Add a route to ``routes.rb``
+**3.** Add a route to ``routes.rb``
 
 ```ruby
 # This creates POST routes on /users to UsersController
