@@ -122,9 +122,15 @@ Godfather::syncDiff = (new_records, old_records) ->
 Godfather::requestAndRefresh = (action, params) ->
   _this = @
 
+  # backend responds with { success: true, id: record.id }
   @request(action, params).then (resp) ->
+    throw new Error 'Error in the backend' unless resp.success
+
     _this.where().then ->
-      _this.promise resp
+      if resp.id
+        _this.promise _this.take(resp.id)
+      else
+        _this.promise resp.success
 
 Godfather::withComputedProps = (record) ->
   if @computed

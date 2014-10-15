@@ -1,16 +1,19 @@
 chai = require 'chai'
 expect = chai.expect
+Godfather = require('../src/godfather')
 
 # Helpers
 fakePromise = (result) ->
   then: (callback) -> callback(result)
 
-fakeResponse = (resp) ->
-  Godfather::request = ->
-    fakePromise resp
+Godfather.fake_responses = {}
+fakeResponse = (resp, action = 'where') ->
+  Godfather.fake_responses[action] = resp
+
+  Godfather::request = (action, params) ->
+    fakePromise Godfather.fake_responses[action]
 
 # Configs
-Godfather = require('../src/godfather')
 Godfather.API_URL = 'http://godfatherjs-testing.com'
 
 Godfather::promise = (result) ->
@@ -71,3 +74,27 @@ describe 'CRUD', ->
 
       User.findBy(name: 'John').then (user) ->
         expect(user).to.eql(undefined)
+
+  describe '#create', ->
+    it 'should create a record and return it', ->
+      fakeResponse({ success: true, id: 1 }, 'create')
+      fakeResponse([{ id: 1, name: 'John' }], 'where')
+
+      User.create(name: 'John').then (user) ->
+        expect(user).to.eql({ id: 1, name: 'John' })
+
+  describe '#update', ->
+    it 'should update a record and return it', ->
+      fakeResponse({ success: true, id: 2 }, 'update')
+      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
+
+      User.update(id: 2, name: 'Peter').then (user) ->
+        expect(user).to.eql({ id: 2, name: 'Peter' })
+
+  describe '#destroy', ->
+    it 'should destroy a record and return if it was successful', ->
+      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
+      fakeResponse({ success: true }, 'destroy')
+
+      User.destroy(id: 2).then (success) ->
+        expect(success).to.eql(true)
