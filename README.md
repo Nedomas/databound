@@ -4,6 +4,8 @@
 
 ActiveRecord exposed to the Javascript side and guarded by guns. 
 
+**API documentation** [nedomas.github.io/godfather.js](http://nedomas.github.io/godfather.js/src/godfather.html).
+
 ## Usage
 
 ```js
@@ -12,13 +14,7 @@ ActiveRecord exposed to the Javascript side and guarded by guns.
   User.find(15).then(function(user) {
     alert('Yo, ' + user.name);
   });
-```
-
-You can specify scope for the connection.
-
-```js
-  User = new Godfather('/users', { city: 'New York' });
-
+  
   User.where({ name: 'John' }).then(function(users) {
     alert('You are a New Yorker called John');
   });
@@ -27,13 +23,7 @@ You can specify scope for the connection.
     // I am from New York
     alert('I am from ' + new_user.city);
   });
-```
-
-Specify ``id`` when updating or destroying the record.
-
-```js
-  User = new Godfather('/users');
-
+  
   User.update({ id: 15, name: 'Saint John' }).then(function(updated_user) {
   });
 
