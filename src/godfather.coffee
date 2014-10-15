@@ -124,7 +124,7 @@ Godfather::requestAndRefresh = (action, params) ->
 
   # backend responds with { success: true, id: record.id }
   @request(action, params).then (resp) ->
-    throw new Error 'Error in the backend' unless resp.success
+    throw new Error 'Error in the backend' unless resp?.success
 
     _this.where().then ->
       if resp.id

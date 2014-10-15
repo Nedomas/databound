@@ -98,3 +98,11 @@ describe 'CRUD', ->
 
       User.destroy(id: 2).then (success) ->
         expect(success).to.eql(true)
+
+  describe 'backend error', ->
+    it 'should throw an error', ->
+      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
+      fakeResponse({ success: true }, 'destroy')
+
+      User.destroy(id: 2).then (success) ->
+        expect(success).to.eql(true)
