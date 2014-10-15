@@ -1,4 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/Nedomas/godfather.js/badges/gpa.svg)](https://codeclimate.com/github/Nedomas/godfather.js)
 [![Build Status](https://travis-ci.org/Nedomas/godfather.js.svg?branch=master)](https://travis-ci.org/Nedomas/godfather.js)
+[![Bower version](https://badge.fury.io/bo/godfather.svg)](http://badge.fury.io/bo/godfather)
+[![NPM version](https://badge.fury.io/js/godfather.svg)](http://badge.fury.io/js/godfather)
 
 # Godfather.js
 

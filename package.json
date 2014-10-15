@@ -19,6 +19,7 @@
     "backend"
   ],
   "devDependencies": {
+    "coffee-script": "1.8.0",
     "gulp": "3.8.8",
     "fs": "0.0.2",
     "gulp-mocha": "^1.1.1",
