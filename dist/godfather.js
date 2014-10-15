@@ -103,8 +103,15 @@ Godfather.prototype.requestAndRefresh = function(action, params) {
   var _this;
   _this = this;
   return this.request(action, params).then(function(resp) {
+    if (!(resp != null ? resp.success : void 0)) {
+      throw new Error('Error in the backend');
+    }
     return _this.where().then(function() {
-      return _this.promise(resp);
+      if (resp.id) {
+        return _this.promise(_this.take(resp.id));
+      } else {
+        return _this.promise(resp.success);
+      }
     });
   });
 };
