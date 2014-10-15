@@ -21,6 +21,7 @@
   "devDependencies": {
     "coffee-script": "1.8.0",
     "gulp": "3.8.8",
+    "gulp-coffee": "2.2.0",
     "fs": "0.0.2",
     "gulp-mocha": "^1.1.1",
     "gulp-shell": "^0.2.10",
