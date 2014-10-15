@@ -1,36 +1,73 @@
-Godfather = require('../src/godfather')
+chai = require 'chai'
+expect = chai.expect
 
 # Helpers
 fakePromise = (result) ->
   then: (callback) -> callback(result)
 
+fakeResponse = (resp) ->
+  Godfather::request = ->
+    fakePromise resp
+
 # Configs
+Godfather = require('../src/godfather')
 Godfather.API_URL = 'http://godfatherjs-testing.com'
+
 Godfather::promise = (result) ->
   fakePromise(result)
-
-chai = require 'chai'
-expect = chai.expect
 
 describe 'CRUD', ->
   User = new Godfather '/users'
 
   describe '#where', ->
     it 'should return zero initial records', ->
-      Godfather::request = (result) ->
-        fakePromise []
+      fakeResponse([])
 
       User.where().then (users) ->
         expect(users).to.eql([])
 
-    it 'should return some records when they exist', ->
-      server_resp =[
+    it 'should return all records when they exist', ->
+      resp =[
         { id: 1, name: 'Nikki' }
         { id: 2, name: 'John' }
       ]
 
-      Godfather::request = (result) ->
-        fakePromise server_resp
+      fakeResponse(resp)
 
       User.where().then (users) ->
-        expect(users).to.eql(server_resp)
+        expect(users).to.eql(resp)
+
+  describe '#find', ->
+    it 'should single record when it exists', ->
+      resp =[
+        { id: 1, name: 'Nikki' }
+        { id: 2, name: 'John' }
+      ]
+
+      fakeResponse(resp)
+
+      User.find(1).then (user) ->
+        expect(user).to.eql({ id: 1, name: 'Nikki' })
+
+    it 'should undefined when it doesnt exist', ->
+      fakeResponse([])
+
+      User.find(1).then (user) ->
+        expect(user).to.eql(undefined)
+
+  describe '#findBy', ->
+    it 'should single record when it exists', ->
+      resp =[
+        { id: 1, name: 'Nikki' }
+      ]
+
+      fakeResponse(resp)
+
+      User.findBy(name: 'John').then (user) ->
+        expect(user).to.eql({ id: 1, name: 'Nikki' })
+
+    it 'should undefined when it doesnt exist', ->
+      fakeResponse([])
+
+      User.findBy(name: 'John').then (user) ->
+        expect(user).to.eql(undefined)
