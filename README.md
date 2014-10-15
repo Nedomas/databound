@@ -1,8 +1,10 @@
+[![Build Status](https://travis-ci.org/Nedomas/godfather.js.svg?branch=master)](https://travis-ci.org/Nedomas/godfather.js)
+
 # Godfather.js
 
 ![Godfather](https://cloud.githubusercontent.com/assets/1877286/4621676/2998b296-532f-11e4-91ed-f9b246d15568.jpg)
 
-ActiveRecord exposed to the Javascript side and guarded by guns. 
+ActiveRecord exposed to the Javascript side and guarded by guns.
 
 **API documentation** [nedomas.github.io/godfather.js](http://nedomas.github.io/godfather.js/src/godfather.html).
 
@@ -14,7 +16,7 @@ ActiveRecord exposed to the Javascript side and guarded by guns.
   User.find(15).then(function(user) {
     alert('Yo, ' + user.name);
   });
-  
+
   User.where({ name: 'John' }).then(function(users) {
     alert('You are a New Yorker called John');
   });
@@ -23,7 +25,7 @@ ActiveRecord exposed to the Javascript side and guarded by guns.
     // I am from New York
     alert('I am from ' + new_user.city);
   });
-  
+
   User.update({ id: 15, name: 'Saint John' }).then(function(updated_user) {
   });
 
@@ -62,7 +64,7 @@ class UsersController < ApplicationController
   include Godfather
 
   private
-  
+
   def model
     User
   end
@@ -86,7 +88,7 @@ For more info go to [Godfather gem repo](https://github.com/Nedomas/godfather)
 
 ```js
   User = new Godfather('/users', { city: 'hottest_city' });
-  
+
   User.create(name: 'Vikki').then(function(new_user) {
     // Vikki is from Miami
     alert(new_user.name + ' is from ' + new_user.city);
@@ -98,11 +100,11 @@ class UsersController < ApplicationController
   include Godfather
 
   private
-  
+
   def model
     User
   end
-  
+
   def override!(name, value, data)
     if name == :city and value == 'hottest_city'
       'Miami'
@@ -124,7 +126,7 @@ Library supports minimalistic version of computed properties. It attaches the pr
       full_name: user.first_name + ' ' + user.last_name;
     };
   };
-  
+
   User.findBy(name: 'Vikki').then(function(user) {
     // Vikki Minaj
     alert(user.full_name);
@@ -136,11 +138,11 @@ Library supports minimalistic version of computed properties. It attaches the pr
 These scopes are used only for finding the records and are not used when creating the record.
 
 ```js
-  User = new Godfather('/users', 
+  User = new Godfather('/users',
     { city: 'Miami' },
     { extra_find_scopes: [{ city: 'New york' }] }
   );
-  
+
   User.create(name: 'Nikki').then(function() {
     var all_users = User.takeAll();
     // ['Miami', 'New york']
