@@ -1,4 +1,4 @@
-# # Godfather.js
+_ = require 'lodash'
 
 # You can specify scope for the connection.
 #
@@ -139,3 +139,5 @@ Godfather::data = (params) ->
   scope: JSON.stringify(@scope)
   extra_find_scopes: JSON.stringify(@extra_find_scopes)
   data: JSON.stringify(params)
+
+module.exports = Godfather

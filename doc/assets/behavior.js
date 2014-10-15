@@ -31,28 +31,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "src/godfather.coffee",
             "targetPath": "src/godfather",
             "pageTitle": "src/godfather",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Godfather.js",
-                "slug": "godfatherjs",
-                "isFileHeader": true
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Configs",
-                    "slug": "configs"
-                  },
-                  "depth": 2
-                }
-              ]
-            },
-            "title": "Godfather.js"
+            "title": "godfather"
           },
           "depth": 2,
           "outline": [

@@ -1,10 +1,27 @@
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
 gutil = require 'gulp-util'
+shell = require 'gulp-shell'
+fs = require 'fs'
+mocha = require 'gulp-mocha'
+watch = require 'gulp-watch'
 
-gulp.task 'default', ->
+gulp.task 'default', ['coffee', 'docs']
+
+gulp.task 'watch', ->
+  gulp.watch('./src/*.coffee', ['default'])
+
+gulp.task 'coffee', ->
   gulp
     .src('./src/*.coffee')
     .pipe(coffee(bare: true)
     .on('error', gutil.log))
     .pipe gulp.dest('./dist/')
+
+gulp.task 'docs', shell.task('node_modules/groc/bin/groc src/*.coffee')
+
+gulp.task 'test', ->
+  gulp.src('test/**/*.coffee',
+      read: false
+  )
+  .pipe(mocha(ui: 'bdd'))

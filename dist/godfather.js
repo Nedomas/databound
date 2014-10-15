@@ -1,4 +1,6 @@
-var Godfather;
+var Godfather, _;
+
+_ = require('lodash');
 
 Godfather = function(endpoint, scope, options) {
   this.endpoint = endpoint;
@@ -38,28 +40,6 @@ Godfather.prototype.where = function(params) {
   });
 };
 
-Godfather.prototype.create = function(params) {
-  return this.requestAndRefresh('create', params);
-};
-
-Godfather.prototype.update = function(params) {
-  return this.requestAndRefresh('update', params);
-};
-
-Godfather.prototype.destroy = function(params) {
-  return this.requestAndRefresh('destroy', params);
-};
-
-Godfather.prototype.requestAndRefresh = function(action, params) {
-  var _this;
-  _this = this;
-  return this.request(action, params).then(function(resp) {
-    return _this.where().then(function() {
-      return _this.promise(resp);
-    });
-  });
-};
-
 Godfather.prototype.find = function(id) {
   var _this;
   _this = this;
@@ -78,34 +58,16 @@ Godfather.prototype.findBy = function(params) {
   });
 };
 
-Godfather.prototype.withComputedProps = function(record) {
-  if (this.computed) {
-    return _.extend(record, this.computed(record));
-  } else {
-    return record;
-  }
+Godfather.prototype.create = function(params) {
+  return this.requestAndRefresh('create', params);
 };
 
-Godfather.prototype.url = function(action) {
-  return "" + Godfather.API_URL + "/" + this.endpoint + "/" + action;
+Godfather.prototype.update = function(params) {
+  return this.requestAndRefresh('update', params);
 };
 
-Godfather.prototype.data = function(params) {
-  return {
-    scope: JSON.stringify(this.scope),
-    extra_find_scopes: JSON.stringify(this.extra_find_scopes),
-    data: JSON.stringify(params)
-  };
-};
-
-Godfather.prototype.refresh = function() {
-  var _this;
-  _this = this;
-  return this.where().then(function(resp) {
-    _this.records = _.clone(_this.seeds);
-    _.extend(_this.records, resp);
-    return _this.promise(_this.records);
-  });
+Godfather.prototype.destroy = function(params) {
+  return this.requestAndRefresh('destroy', params);
 };
 
 Godfather.prototype.take = function(id) {
@@ -136,3 +98,35 @@ Godfather.prototype.syncDiff = function(new_records, old_records) {
     return _this.update(record);
   });
 };
+
+Godfather.prototype.requestAndRefresh = function(action, params) {
+  var _this;
+  _this = this;
+  return this.request(action, params).then(function(resp) {
+    return _this.where().then(function() {
+      return _this.promise(resp);
+    });
+  });
+};
+
+Godfather.prototype.withComputedProps = function(record) {
+  if (this.computed) {
+    return _.extend(record, this.computed(record));
+  } else {
+    return record;
+  }
+};
+
+Godfather.prototype.url = function(action) {
+  return "" + Godfather.API_URL + "/" + this.endpoint + "/" + action;
+};
+
+Godfather.prototype.data = function(params) {
+  return {
+    scope: JSON.stringify(this.scope),
+    extra_find_scopes: JSON.stringify(this.extra_find_scopes),
+    data: JSON.stringify(params)
+  };
+};
+
+module.exports = Godfather;
