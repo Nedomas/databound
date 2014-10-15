@@ -1,20 +1,12 @@
 {
   "name": "godfather",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Domas <domas.bitvinskas@me.com>",
   "description": "ActiveRecord records exposed to the Javascript side and guarded by guns.",
   "main": "dist/godfather.js",
+  "homepage": "https://github.com/Nedomas/godfather.js",
   "dependencies": {
-    "bluebird": "^2.3.5",
-    "fs": "0.0.2",
-    "gulp-mocha": "^1.1.1",
-    "gulp-shell": "^0.2.10",
-    "gulp-watch": "^1.1.0",
-    "jquery": "^2.1.1",
-    "jsdom": "^1.0.3",
-    "lodash": "^2.4.1",
-    "mocha": "^1.21.5",
-    "request-promise": "^0.2.4"
+    "lodash": "^2.4.1"
   },
   "keywords": [
     "queries",
@@ -23,9 +15,11 @@
     "backend"
   ],
   "devDependencies": {
-    "chai": "^1.9.2",
-    "node-debug": "^0.1.0",
-    "sinon": "^1.10.3",
-    "xmlhttprequest": "^1.6.0"
+    "fs": "0.0.2",
+    "gulp-mocha": "^1.1.1",
+    "gulp-shell": "^0.2.10",
+    "gulp-watch": "^1.1.0",
+    "mocha": "^1.21.5",
+    "chai": "^1.9.2"
   }
 }
