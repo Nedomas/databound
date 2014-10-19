@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/Nedomas/godfather.js.svg?branch=master)](https://travis-ci.org/Nedomas/godfather.js)
 [![Bower version](https://badge.fury.io/bo/godfather.svg)](http://badge.fury.io/bo/godfather)
 [![NPM version](https://badge.fury.io/js/godfather.svg)](http://badge.fury.io/js/godfather)
+[![Dependency Status](https://gemnasium.com/Nedomas/godfather.js.svg)](https://gemnasium.com/Nedomas/godfather.js)
 
 # Godfather.js
 
