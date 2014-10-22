@@ -3,7 +3,7 @@ _ = require 'lodash'
 # You can specify scope for the connection.
 #
 # ```coffeescript
-#   User = new Godfather '/users', city: 'New York'
+#   User = new Databound '/users', city: 'New York'
 #
 #   User.where(name: 'John').then (users) ->
 #     alert 'You are a New Yorker called John'
@@ -12,7 +12,7 @@ _ = require 'lodash'
 #     # I am from New York
 #     alert "I am from #{new_user.city}"
 # ```
-Godfather = (endpoint, scope, options) ->
+Databound = (endpoint, scope, options) ->
   @endpoint = endpoint
   @scope = scope or {}
   @options = options or {}
@@ -25,19 +25,19 @@ Godfather = (endpoint, scope, options) ->
 # ## Configs
 
 # Functions ``request`` and ``promise`` are overritable
-Godfather.API_URL = ""
+Databound.API_URL = ""
 
 # Should do a POST request and return a ``promise``
-Godfather::request = (action, params) ->
+Databound::request = (action, params) ->
   $j.post @url(action), @data(params), 'json'
 
 # Should return a ``promise`` which resolves with ``result``
-Godfather::promise = (result) ->
+Databound::promise = (result) ->
   deferred = $j.Deferred()
   deferred.resolve result
   deferred.promise()
 
-Godfather::where = (params) ->
+Databound::where = (params) ->
   _this = @
 
   @request('where', params).then (records) ->
@@ -55,7 +55,7 @@ Godfather::where = (params) ->
 # User.find(15).then (user) ->
 #   alert "Yo, #{user.name}"
 # ```
-Godfather::find = (id) ->
+Databound::find = (id) ->
   _this = @
 
   @where(id: id).then ->
@@ -67,19 +67,19 @@ Godfather::find = (id) ->
 # User.findBy(name: 'John', city: 'New York').then (user) ->
 #   alert "I'm John from New York"
 # ```
-Godfather::findBy = (params) ->
+Databound::findBy = (params) ->
   _this = @
 
   @where(params).then (resp) ->
     _this.promise _.first(_.values(resp))
 
-Godfather::create = (params) ->
+Databound::create = (params) ->
   @requestAndRefresh 'create', params
 
 # Specify ``id`` when updating or destroying the record.
 #
 # ```coffeescript
-#   User = new Godfather '/users'
+#   User = new Databound '/users'
 #
 #   User.update(id: 15, name: 'Saint John').then (updated_user) ->
 #     alert updated_user
@@ -87,26 +87,26 @@ Godfather::create = (params) ->
 #   User.destroy(id: 15).then (resp) ->
 #     alert resp.success
 # ```
-Godfather::update = (params) ->
+Databound::update = (params) ->
   @requestAndRefresh 'update', params
 
-Godfather::destroy = (params) ->
+Databound::destroy = (params) ->
   @requestAndRefresh 'destroy', params
 
 # Just take already dowloaded records
-Godfather::take = (id) ->
+Databound::take = (id) ->
   _.detect @records, (record) ->
     parseInt(record.id) == parseInt(id)
 
-Godfather::takeAll = ->
+Databound::takeAll = ->
   @records
 
 # F.e. Have default records
-Godfather::injectSeedRecords = (records) ->
+Databound::injectSeedRecords = (records) ->
   @seeds = records
 
 # Used with Angular.js ``$watch`` to sync model changes to backend
-Godfather::syncDiff = (new_records, old_records) ->
+Databound::syncDiff = (new_records, old_records) ->
   _this = this
 
   dirty_records = _.select(new_records, (new_record) ->
@@ -119,7 +119,7 @@ Godfather::syncDiff = (new_records, old_records) ->
   _.each dirty_records, (record) ->
     _this.update record
 
-Godfather::requestAndRefresh = (action, params) ->
+Databound::requestAndRefresh = (action, params) ->
   _this = @
 
   # backend responds with { success: true, id: record.id }
@@ -132,18 +132,18 @@ Godfather::requestAndRefresh = (action, params) ->
       else
         _this.promise resp.success
 
-Godfather::withComputedProps = (record) ->
+Databound::withComputedProps = (record) ->
   if @computed
     _.extend record, @computed(record)
   else
     record
 
-Godfather::url = (action) ->
-  "#{Godfather.API_URL}/#{@endpoint}/#{action}"
+Databound::url = (action) ->
+  "#{Databound.API_URL}/#{@endpoint}/#{action}"
 
-Godfather::data = (params) ->
+Databound::data = (params) ->
   scope: JSON.stringify(@scope)
   extra_find_scopes: JSON.stringify(@extra_find_scopes)
   data: JSON.stringify(params)
 
-module.exports = Godfather
+module.exports = Databound

@@ -1,26 +1,26 @@
 chai = require 'chai'
 expect = chai.expect
-Godfather = require('../src/godfather')
+Databound = require('../src/databound')
 
 # Helpers
 fakePromise = (result) ->
   then: (callback) -> callback(result)
 
-Godfather.fake_responses = {}
+Databound.fake_responses = {}
 fakeResponse = (resp, action = 'where') ->
-  Godfather.fake_responses[action] = resp
+  Databound.fake_responses[action] = resp
 
-  Godfather::request = (action, params) ->
-    fakePromise Godfather.fake_responses[action]
+  Databound::request = (action, params) ->
+    fakePromise Databound.fake_responses[action]
 
 # Configs
-Godfather.API_URL = 'http://godfatherjs-testing.com'
+Databound.API_URL = 'http://databound-testing.com'
 
-Godfather::promise = (result) ->
+Databound::promise = (result) ->
   fakePromise(result)
 
 describe 'CRUD', ->
-  User = new Godfather '/users'
+  User = new Databound '/users'
 
   describe '#where', ->
     it 'should return zero initial records', ->

@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><title>src/databound</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="src/databound"><meta name="groc-project-path" content="src/databound.coffee"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/databound.coffee</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">_ = <span class="hljs-built_in">require</span> <span class="hljs-string">'lodash'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>You can specify scope for the connection.</p>
+<pre><code class="lang-coffeescript">  User = <span class="hljs-keyword">new</span> Databound <span class="hljs-string">'/users'</span>, <span class="hljs-attribute">city</span>: <span class="hljs-string">'New York'</span>
+  User.where<span class="hljs-function"><span class="hljs-params">(name: <span class="hljs-string">'John'</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(users)</span> -&gt;</span>
+    alert <span class="hljs-string">'You are a New Yorker called John'</span>
+  User.create<span class="hljs-function"><span class="hljs-params">(name: <span class="hljs-string">'Peter'</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(new_user)</span> -&gt;</span>
+    <span class="hljs-comment"># I am from New York</span>
+    alert <span class="hljs-string">"I am from <span class="hljs-subst">#{new_user.city}</span>"</span></code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-title">Databound</span> = <span class="hljs-params">(endpoint, scope, options)</span> -&gt;</span>
+  <span class="hljs-property">@endpoint</span> = endpoint
+  <span class="hljs-property">@scope</span> = scope <span class="hljs-keyword">or</span> {}
+  <span class="hljs-property">@options</span> = options <span class="hljs-keyword">or</span> {}
+  <span class="hljs-property">@extra_find_scopes</span> = <span class="hljs-property">@options</span>.extra_find_scopes <span class="hljs-keyword">or</span> []
+  <span class="hljs-property">@records</span> = []
+  <span class="hljs-property">@seeds</span> = []
+  <span class="hljs-property">@properties</span> = []
+  <span class="hljs-keyword">return</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="configs">Configs</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Functions <code>request</code> and <code>promise</code> are overritable</p></div></div><div class="code"><div class="wrapper">Databound.API_URL = <span class="hljs-string">""</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Should do a POST request and return a <code>promise</code></p></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">request</span> = <span class="hljs-params">(action, params)</span> -&gt;</span>
+  $j.post <span class="hljs-property">@url</span>(action), <span class="hljs-property">@data</span>(params), <span class="hljs-string">'json'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Should return a <code>promise</code> which resolves with <code>result</code></p></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">promise</span> = <span class="hljs-params">(result)</span> -&gt;</span>
+  deferred = $j.Deferred()
+  deferred.resolve result
+  deferred.promise()
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">where</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  _this = @
+
+  <span class="hljs-property">@request</span><span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'where'</span>, params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(records)</span> -&gt;</span>
+    records = records.concat(_this.seeds)
+    computed_records = _.map<span class="hljs-function"><span class="hljs-params">(records, (record) -&gt;
+      _this.withComputedProps record
+    )</span>
+    <span class="hljs-title">_this</span>.<span class="hljs-title">properties</span> = <span class="hljs-title">_</span>.<span class="hljs-title">keys</span><span class="hljs-params">(records[<span class="hljs-number">0</span>])</span>
+    <span class="hljs-title">_this</span>.<span class="hljs-title">records</span> = <span class="hljs-title">_</span>.<span class="hljs-title">sortBy</span><span class="hljs-params">(computed_records, <span class="hljs-string">'id'</span>)</span>
+    <span class="hljs-title">_this</span>.<span class="hljs-title">promise</span> <span class="hljs-title">_this</span>.<span class="hljs-title">records</span>
+</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Return a single record by <code>id</code></p>
+<pre><code class="lang-coffeescript">User.find<span class="hljs-function"><span class="hljs-params">(<span class="hljs-number">15</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(user)</span> -&gt;</span>
+  alert <span class="hljs-string">"Yo, <span class="hljs-subst">#{user.name}</span>"</span></code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">find</span> = <span class="hljs-params">(id)</span> -&gt;</span>
+  _this = @
+
+  <span class="hljs-property">@where</span>(<span class="hljs-attribute">id</span>: id).<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+    _this.promise _this.take(id)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Return a single record by <code>params</code></p>
+<pre><code class="lang-coffeescript">User.findBy<span class="hljs-function"><span class="hljs-params">(name: <span class="hljs-string">'John'</span>, city: <span class="hljs-string">'New York'</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(user)</span> -&gt;</span>
+  alert <span class="hljs-string">"I'm John from New York"</span></code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">findBy</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  _this = @
+
+  <span class="hljs-property">@where</span><span class="hljs-function"><span class="hljs-params">(params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(resp)</span> -&gt;</span>
+    _this.promise _.first(_.values(resp))
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">create</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  <span class="hljs-property">@requestAndRefresh</span> <span class="hljs-string">'create'</span>, params</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Specify <code>id</code> when updating or destroying the record.</p>
+<pre><code class="lang-coffeescript">  User = <span class="hljs-keyword">new</span> Databound <span class="hljs-string">'/users'</span>
+  User.update<span class="hljs-function"><span class="hljs-params">(id: <span class="hljs-number">15</span>, name: <span class="hljs-string">'Saint John'</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(updated_user)</span> -&gt;</span>
+    alert updated_user
+  User.destroy<span class="hljs-function"><span class="hljs-params">(id: <span class="hljs-number">15</span>)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(resp)</span> -&gt;</span>
+    alert resp.success</code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">update</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  <span class="hljs-property">@requestAndRefresh</span> <span class="hljs-string">'update'</span>, params
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">destroy</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  <span class="hljs-property">@requestAndRefresh</span> <span class="hljs-string">'destroy'</span>, params</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Just take already dowloaded records</p></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">take</span> = <span class="hljs-params">(id)</span> -&gt;</span>
+  _.detect <span class="hljs-property">@records</span>, <span class="hljs-function"><span class="hljs-params">(record)</span> -&gt;</span>
+    parseInt(record.id) == parseInt(id)
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">takeAll</span> = -&gt;</span>
+  <span class="hljs-property">@records</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>F.e. Have default records</p></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">injectSeedRecords</span> = <span class="hljs-params">(records)</span> -&gt;</span>
+  <span class="hljs-property">@seeds</span> = records</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Used with Angular.js <code>$watch</code> to sync model changes to backend</p></div></div><div class="code"><div class="wrapper"><span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">syncDiff</span> = <span class="hljs-params">(new_records, old_records)</span> -&gt;</span>
+  _this = <span class="hljs-keyword">this</span>
+
+  dirty_records = _.select<span class="hljs-function"><span class="hljs-params">(new_records, (new_record) -&gt;
+    record_with_same_id = _.detect(old_records, (old_record) -&gt;
+      new_record.id <span class="hljs-keyword">is</span> old_record.id
+    )
+    JSON.stringify(_.pick(record_with_same_id, _this.properties)) <span class="hljs-keyword">isnt</span>
+      JSON.stringify(_.pick(new_record, _this.properties))
+  )</span>
+  <span class="hljs-title">_</span>.<span class="hljs-title">each</span> <span class="hljs-title">dirty_records</span>, <span class="hljs-params">(record)</span> -&gt;</span>
+    _this.update record
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">requestAndRefresh</span> = <span class="hljs-params">(action, params)</span> -&gt;</span>
+  _this = @</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>backend responds with { success: true, id: record.id }</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-property">@request</span><span class="hljs-function"><span class="hljs-params">(action, params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(resp)</span> -&gt;</span>
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">'Error in the backend'</span> <span class="hljs-keyword">unless</span> resp?.success
+
+    _this.where().<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+      <span class="hljs-keyword">if</span> resp.id
+        _this.promise _this.take(resp.id)
+      <span class="hljs-keyword">else</span>
+        _this.promise resp.success
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">withComputedProps</span> = <span class="hljs-params">(record)</span> -&gt;</span>
+  <span class="hljs-keyword">if</span> <span class="hljs-property">@computed</span>
+    _.extend record, <span class="hljs-property">@computed</span>(record)
+  <span class="hljs-keyword">else</span>
+    record
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">url</span> = <span class="hljs-params">(action)</span> -&gt;</span>
+  <span class="hljs-string">"<span class="hljs-subst">#{Databound.API_URL}</span>/<span class="hljs-subst">#{<span class="hljs-property">@endpoint</span>}</span>/<span class="hljs-subst">#{action}</span>"</span>
+
+<span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">data</span> = <span class="hljs-params">(params)</span> -&gt;</span>
+  <span class="hljs-attribute">scope</span>: JSON.stringify(<span class="hljs-property">@scope</span>)
+  <span class="hljs-attribute">extra_find_scopes</span>: JSON.stringify(<span class="hljs-property">@extra_find_scopes</span>)
+  <span class="hljs-attribute">data</span>: JSON.stringify(params)
+
+<span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = Databound</div></div></div></div></body></html>

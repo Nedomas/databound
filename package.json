@@ -1,13 +1,13 @@
 {
-  "name": "godfather",
+  "name": "databound",
   "version": "0.0.3",
   "author": "Domas <domas.bitvinskas@me.com>",
-  "description": "ActiveRecord records exposed to the Javascript side and guarded by guns.",
-  "main": "dist/godfather.js",
-  "homepage": "https://github.com/Nedomas/godfather.js",
+  "description": "Out-of-box ActiveRecord exposed to the Javascript side. Backend part gem included",
+  "main": "dist/databound.js",
+  "homepage": "https://github.com/Nedomas/databound",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Nedomas/godfather.js.git"
+    "url": "git://github.com/Nedomas/databound.git"
   },
   "dependencies": {
     "lodash": "^2.4.1"

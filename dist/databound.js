@@ -1,8 +1,8 @@
-var Godfather, _;
+var Databound, _;
 
 _ = require('lodash');
 
-Godfather = function(endpoint, scope, options) {
+Databound = function(endpoint, scope, options) {
   this.endpoint = endpoint;
   this.scope = scope || {};
   this.options = options || {};
@@ -12,20 +12,20 @@ Godfather = function(endpoint, scope, options) {
   this.properties = [];
 };
 
-Godfather.API_URL = "";
+Databound.API_URL = "";
 
-Godfather.prototype.request = function(action, params) {
+Databound.prototype.request = function(action, params) {
   return $j.post(this.url(action), this.data(params), 'json');
 };
 
-Godfather.prototype.promise = function(result) {
+Databound.prototype.promise = function(result) {
   var deferred;
   deferred = $j.Deferred();
   deferred.resolve(result);
   return deferred.promise();
 };
 
-Godfather.prototype.where = function(params) {
+Databound.prototype.where = function(params) {
   var _this;
   _this = this;
   return this.request('where', params).then(function(records) {
@@ -40,7 +40,7 @@ Godfather.prototype.where = function(params) {
   });
 };
 
-Godfather.prototype.find = function(id) {
+Databound.prototype.find = function(id) {
   var _this;
   _this = this;
   return this.where({
@@ -50,7 +50,7 @@ Godfather.prototype.find = function(id) {
   });
 };
 
-Godfather.prototype.findBy = function(params) {
+Databound.prototype.findBy = function(params) {
   var _this;
   _this = this;
   return this.where(params).then(function(resp) {
@@ -58,33 +58,33 @@ Godfather.prototype.findBy = function(params) {
   });
 };
 
-Godfather.prototype.create = function(params) {
+Databound.prototype.create = function(params) {
   return this.requestAndRefresh('create', params);
 };
 
-Godfather.prototype.update = function(params) {
+Databound.prototype.update = function(params) {
   return this.requestAndRefresh('update', params);
 };
 
-Godfather.prototype.destroy = function(params) {
+Databound.prototype.destroy = function(params) {
   return this.requestAndRefresh('destroy', params);
 };
 
-Godfather.prototype.take = function(id) {
+Databound.prototype.take = function(id) {
   return _.detect(this.records, function(record) {
     return parseInt(record.id) === parseInt(id);
   });
 };
 
-Godfather.prototype.takeAll = function() {
+Databound.prototype.takeAll = function() {
   return this.records;
 };
 
-Godfather.prototype.injectSeedRecords = function(records) {
+Databound.prototype.injectSeedRecords = function(records) {
   return this.seeds = records;
 };
 
-Godfather.prototype.syncDiff = function(new_records, old_records) {
+Databound.prototype.syncDiff = function(new_records, old_records) {
   var dirty_records, _this;
   _this = this;
   dirty_records = _.select(new_records, function(new_record) {
@@ -99,7 +99,7 @@ Godfather.prototype.syncDiff = function(new_records, old_records) {
   });
 };
 
-Godfather.prototype.requestAndRefresh = function(action, params) {
+Databound.prototype.requestAndRefresh = function(action, params) {
   var _this;
   _this = this;
   return this.request(action, params).then(function(resp) {
@@ -116,7 +116,7 @@ Godfather.prototype.requestAndRefresh = function(action, params) {
   });
 };
 
-Godfather.prototype.withComputedProps = function(record) {
+Databound.prototype.withComputedProps = function(record) {
   if (this.computed) {
     return _.extend(record, this.computed(record));
   } else {
@@ -124,11 +124,11 @@ Godfather.prototype.withComputedProps = function(record) {
   }
 };
 
-Godfather.prototype.url = function(action) {
-  return "" + Godfather.API_URL + "/" + this.endpoint + "/" + action;
+Databound.prototype.url = function(action) {
+  return "" + Databound.API_URL + "/" + this.endpoint + "/" + action;
 };
 
-Godfather.prototype.data = function(params) {
+Databound.prototype.data = function(params) {
   return {
     scope: JSON.stringify(this.scope),
     extra_find_scopes: JSON.stringify(this.extra_find_scopes),
@@ -136,4 +136,4 @@ Godfather.prototype.data = function(params) {
   };
 };
 
-module.exports = Godfather;
+module.exports = Databound;
