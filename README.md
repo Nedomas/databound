@@ -1,4 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/Nedomas/databound.js/badges/gpa.svg)](https://codeclimate.com/github/Nedomas/databound.js)
+[![Code Climate](https://codeclimate.com/github/Nedomas/databound/badges/gpa.svg)](https://codeclimate.com/github/Nedomas/databound)
 [![Build Status](https://travis-ci.org/Nedomas/databound.svg)](https://travis-ci.org/Nedomas/databound)
 [![Bower version](https://badge.fury.io/bo/databound.svg)](http://badge.fury.io/bo/databound)
 [![NPM version](https://badge.fury.io/js/databound.svg)](http://badge.fury.io/js/databound)
