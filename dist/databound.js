@@ -1,10 +1,10 @@
-var atabound, jQuery, _;
+var Databound, jQuery, _;
 
 _ = require('lodash');
 
 jQuery = require('jquery');
 
-atabound = function(endpoint, scope, options) {
+Databound = function(endpoint, scope, options) {
   this.endpoint = endpoint;
   this.scope = scope || {};
   this.options = options || {};
