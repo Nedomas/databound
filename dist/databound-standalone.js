@@ -1,8 +1,4 @@
-var atabound, jQuery, _;
-
-_ = require('lodash');
-
-jQuery = require('jquery');
+var atabound;
 
 atabound = function(endpoint, scope, options) {
   this.endpoint = endpoint;
@@ -138,5 +134,3 @@ Databound.prototype.data = function(params) {
     data: JSON.stringify(params)
   };
 };
-
-module.exports = Databound;

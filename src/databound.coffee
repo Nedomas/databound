@@ -1,4 +1,5 @@
 _ = require 'lodash'
+jQuery = require 'jquery'
 
 # You can specify scope for the connection.
 #
@@ -27,19 +28,20 @@ Databound = (endpoint, scope, options) ->
 # Functions ``request`` and ``promise`` are overritable
 Databound.API_URL = ""
 
-# Should do a POST request and return a ``promise``
+# Does a POST request and returns a ``promise``
 Databound::request = (action, params) ->
-  $j.post @url(action), @data(params), 'json'
+  jQuery.post @url(action), @data(params), 'json'
 
-# Should return a ``promise`` which resolves with ``result``
+# Returns a ``promise`` which resolves with ``result``
 Databound::promise = (result) ->
-  deferred = $j.Deferred()
+  deferred = jQuery.Deferred()
   deferred.resolve result
   deferred.promise()
 
 Databound::where = (params) ->
   _this = @
 
+  console.log('ddd')
   @request('where', params).then (records) ->
     records = records.concat(_this.seeds)
     computed_records = _.map(records, (record) ->

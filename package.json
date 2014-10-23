@@ -10,6 +10,7 @@
     "url": "git://github.com/Nedomas/databound.git"
   },
   "dependencies": {
+    "jquery": "^2.1.1",
     "lodash": "^2.4.1"
   },
   "keywords": [
@@ -19,16 +20,18 @@
     "backend"
   ],
   "devDependencies": {
+    "chai": "^1.9.2",
     "coffee-script": "1.8.0",
+    "fs": "0.0.2",
+    "groc": "0.7.0",
     "gulp": "3.8.8",
     "gulp-coffee": "2.2.0",
-    "gulp-util": "3.0.1",
-    "fs": "0.0.2",
     "gulp-mocha": "^1.1.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.4.0",
     "gulp-shell": "^0.2.10",
+    "gulp-util": "3.0.1",
     "gulp-watch": "^1.1.0",
-    "groc": "0.7.0",
-    "mocha": "^1.21.5",
-    "chai": "^1.9.2"
+    "mocha": "^1.21.5"
   }
 }
