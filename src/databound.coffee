@@ -41,7 +41,6 @@ Databound::promise = (result) ->
 Databound::where = (params) ->
   _this = @
 
-  console.log('ddd')
   @request('where', params).then (records) ->
     records = records.concat(_this.seeds)
     computed_records = _.map(records, (record) ->
@@ -141,7 +140,10 @@ Databound::withComputedProps = (record) ->
     record
 
 Databound::url = (action) ->
-  "#{Databound.API_URL}/#{@endpoint}/#{action}"
+  if _.isEmpty(Databound.API_URL)
+    "#{@endpoint}/#{action}"
+  else
+    "#{Databound.API_URL}/#{@endpoint}/#{action}"
 
 Databound::data = (params) ->
   scope: JSON.stringify(@scope)

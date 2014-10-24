@@ -26,7 +26,6 @@ Databound.prototype.promise = function(result) {
 Databound.prototype.where = function(params) {
   var _this;
   _this = this;
-  console.log('ddd');
   return this.request('where', params).then(function(records) {
     var computed_records;
     records = records.concat(_this.seeds);
@@ -124,7 +123,11 @@ Databound.prototype.withComputedProps = function(record) {
 };
 
 Databound.prototype.url = function(action) {
-  return "" + Databound.API_URL + "/" + this.endpoint + "/" + action;
+  if (_.isEmpty(Databound.API_URL)) {
+    return "" + this.endpoint + "/" + action;
+  } else {
+    return "" + Databound.API_URL + "/" + this.endpoint + "/" + action;
+  }
 };
 
 Databound.prototype.data = function(params) {

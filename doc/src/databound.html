@@ -22,7 +22,6 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
 <span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">where</span> = <span class="hljs-params">(params)</span> -&gt;</span>
   _this = @
 
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'ddd'</span>)
   <span class="hljs-property">@request</span><span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'where'</span>, params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(records)</span> -&gt;</span>
     records = records.concat(_this.seeds)
     computed_records = _.map<span class="hljs-function"><span class="hljs-params">(records, (record) -&gt;
@@ -91,7 +90,10 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
     record
 
 <span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">url</span> = <span class="hljs-params">(action)</span> -&gt;</span>
-  <span class="hljs-string">"<span class="hljs-subst">#{Databound.API_URL}</span>/<span class="hljs-subst">#{<span class="hljs-property">@endpoint</span>}</span>/<span class="hljs-subst">#{action}</span>"</span>
+  <span class="hljs-keyword">if</span> _.isEmpty(Databound.API_URL)
+    <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-property">@endpoint</span>}</span>/<span class="hljs-subst">#{action}</span>"</span>
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-string">"<span class="hljs-subst">#{Databound.API_URL}</span>/<span class="hljs-subst">#{<span class="hljs-property">@endpoint</span>}</span>/<span class="hljs-subst">#{action}</span>"</span>
 
 <span class="hljs-attribute">Databound</span>::<span class="hljs-function"><span class="hljs-title">data</span> = <span class="hljs-params">(params)</span> -&gt;</span>
   <span class="hljs-attribute">scope</span>: JSON.stringify(<span class="hljs-property">@scope</span>)
