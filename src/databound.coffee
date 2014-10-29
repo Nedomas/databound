@@ -127,11 +127,12 @@ Databound::requestAndRefresh = (action, params) ->
   @request(action, params).then (resp) ->
     throw new Error 'Error in the backend' unless resp?.success
 
-    _this.where().then ->
-      if resp.id
-        _this.promise _this.take(resp.id)
-      else
-        _this.promise resp.success
+    _this.records = _.sortBy(resp.scoped_records, 'id')
+
+    if resp.id
+      _this.promise _this.take(resp.id)
+    else
+      _this.promise resp.success
 
 Databound::withComputedProps = (record) ->
   if @computed
