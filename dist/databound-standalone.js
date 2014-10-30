@@ -104,13 +104,12 @@ Databound.prototype.requestAndRefresh = function(action, params) {
     if (!(resp != null ? resp.success : void 0)) {
       throw new Error('Error in the backend');
     }
-    return _this.where().then(function() {
-      if (resp.id) {
-        return _this.promise(_this.take(resp.id));
-      } else {
-        return _this.promise(resp.success);
-      }
-    });
+    _this.records = _.sortBy(JSON.parse(resp.scoped_records), 'id');
+    if (resp.id) {
+      return _this.promise(_this.take(resp.id));
+    } else {
+      return _this.promise(resp.success);
+    }
   });
 };
 
