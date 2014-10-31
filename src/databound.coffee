@@ -96,8 +96,10 @@ Databound::destroy = (params) ->
 
 # Just take already dowloaded records
 Databound::take = (id) ->
+  _this = @
+
   _.detect @records, (record) ->
-    parseInt(record.id) == parseInt(id)
+    JSON.stringify(id) == JSON.stringify(record.id)
 
 Databound::takeAll = ->
   @records

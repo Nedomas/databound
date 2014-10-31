@@ -69,8 +69,10 @@ Databound.prototype.destroy = function(params) {
 };
 
 Databound.prototype.take = function(id) {
+  var _this;
+  _this = this;
   return _.detect(this.records, function(record) {
-    return parseInt(record.id) === parseInt(id);
+    return JSON.stringify(id) === JSON.stringify(record.id);
   });
 };
 
