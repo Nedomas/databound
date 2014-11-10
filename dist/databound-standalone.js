@@ -27,13 +27,8 @@ Databound.prototype.where = function(params) {
   var _this;
   _this = this;
   return this.request('where', params).then(function(records) {
-    var computed_records;
     records = records.concat(_this.seeds);
-    computed_records = _.map(records, function(record) {
-      return _this.withComputedProps(record);
-    });
-    _this.properties = _.keys(records[0]);
-    _this.records = _.sortBy(computed_records, 'id');
+    _this.records = _.sortBy(records, 'id');
     return _this.promise(_this.records);
   });
 };
@@ -72,7 +67,7 @@ Databound.prototype.take = function(id) {
   var _this;
   _this = this;
   return _.detect(this.records, function(record) {
-    return JSON.stringify(id) === JSON.stringify(record.id);
+    return id.toString() === record.id.toString();
   });
 };
 
@@ -84,46 +79,25 @@ Databound.prototype.injectSeedRecords = function(records) {
   return this.seeds = records;
 };
 
-Databound.prototype.syncDiff = function(new_records, old_records) {
-  var dirty_records, _this;
-  _this = this;
-  dirty_records = _.select(new_records, function(new_record) {
-    var record_with_same_id;
-    record_with_same_id = _.detect(old_records, function(old_record) {
-      return new_record.id === old_record.id;
-    });
-    return JSON.stringify(_.pick(record_with_same_id, _this.properties)) !== JSON.stringify(_.pick(new_record, _this.properties));
-  });
-  return _.each(dirty_records, function(record) {
-    return _this.update(record);
-  });
-};
-
 Databound.prototype.requestAndRefresh = function(action, params) {
   var _this;
   _this = this;
   return this.request(action, params).then(function(resp) {
+    var records;
     if (!(resp != null ? resp.success : void 0)) {
       throw new Error('Error in the backend');
     }
     if (_.isString(resp.scoped_records)) {
       resp.scoped_records = JSON.parse(resp.scoped_records);
     }
-    _this.records = _.sortBy(resp.scoped_records, 'id');
+    records = resp.scoped_records.concat(_this.seeds);
+    _this.records = _.sortBy(records, 'id');
     if (resp.id) {
       return _this.promise(_this.take(resp.id));
     } else {
       return _this.promise(resp.success);
     }
   });
-};
-
-Databound.prototype.withComputedProps = function(record) {
-  if (this.computed) {
-    return _.extend(record, this.computed(record));
-  } else {
-    return record;
-  }
 };
 
 Databound.prototype.url = function(action) {

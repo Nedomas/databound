@@ -43,11 +43,7 @@ Databound::where = (params) ->
 
   @request('where', params).then (records) ->
     records = records.concat(_this.seeds)
-    computed_records = _.map(records, (record) ->
-      _this.withComputedProps record
-    )
-    _this.properties = _.keys(records[0])
-    _this.records = _.sortBy(computed_records, 'id')
+    _this.records = _.sortBy(records, 'id')
     _this.promise _this.records
 
 # Return a single record by ``id``
@@ -99,7 +95,7 @@ Databound::take = (id) ->
   _this = @
 
   _.detect @records, (record) ->
-    JSON.stringify(id) == JSON.stringify(record.id)
+    id.toString() == record.id.toString()
 
 Databound::takeAll = ->
   @records
@@ -108,24 +104,15 @@ Databound::takeAll = ->
 Databound::injectSeedRecords = (records) ->
   @seeds = records
 
-# Used with Angular.js ``$watch`` to sync model changes to backend
-Databound::syncDiff = (new_records, old_records) ->
-  _this = this
-
-  dirty_records = _.select(new_records, (new_record) ->
-    record_with_same_id = _.detect(old_records, (old_record) ->
-      new_record.id is old_record.id
-    )
-    JSON.stringify(_.pick(record_with_same_id, _this.properties)) isnt
-      JSON.stringify(_.pick(new_record, _this.properties))
-  )
-  _.each dirty_records, (record) ->
-    _this.update record
-
 Databound::requestAndRefresh = (action, params) ->
   _this = @
 
-  # backend responds with { success: true, id: record.id }
+  # backend responds with:
+  # {
+  #   success: true,
+  #   id: record.id,
+  #   scoped_records: []
+  # }
   @request(action, params).then (resp) ->
     throw new Error 'Error in the backend' unless resp?.success
 
@@ -133,18 +120,13 @@ Databound::requestAndRefresh = (action, params) ->
     if _.isString(resp.scoped_records)
       resp.scoped_records = JSON.parse(resp.scoped_records)
 
-    _this.records = _.sortBy(resp.scoped_records, 'id')
+    records = resp.scoped_records.concat(_this.seeds)
+    _this.records = _.sortBy(records, 'id')
 
     if resp.id
       _this.promise _this.take(resp.id)
     else
       _this.promise resp.success
-
-Databound::withComputedProps = (record) ->
-  if @computed
-    _.extend record, @computed(record)
-  else
-    record
 
 Databound::url = (action) ->
   if _.isEmpty(Databound.API_URL)
