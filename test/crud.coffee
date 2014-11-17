@@ -77,32 +77,42 @@ describe 'CRUD', ->
 
   describe '#create', ->
     it 'should create a record and return it', ->
-      fakeResponse({ success: true, id: 1 }, 'create')
-      fakeResponse([{ id: 1, name: 'John' }], 'where')
+      fakeResponse
+        success: true
+        id: 1
+        scoped_records: [{ id: 1, name: 'John' }]
+      , 'create'
 
       User.create(name: 'John').then (user) ->
         expect(user).to.eql({ id: 1, name: 'John' })
 
   describe '#update', ->
     it 'should update a record and return it', ->
-      fakeResponse({ success: true, id: 2 }, 'update')
-      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
+      fakeResponse
+        success: true
+        id: 2
+        scoped_records: [{ id: 2, name: 'Peter' }]
+      , 'update'
 
       User.update(id: 2, name: 'Peter').then (user) ->
         expect(user).to.eql({ id: 2, name: 'Peter' })
 
   describe '#destroy', ->
     it 'should destroy a record and return if it was successful', ->
-      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
-      fakeResponse({ success: true }, 'destroy')
+      fakeResponse
+        success: true
+        scoped_records: []
+      , 'destroy'
 
       User.destroy(id: 2).then (success) ->
         expect(success).to.eql(true)
 
   describe 'backend error', ->
     it 'should throw an error', ->
-      fakeResponse([{ id: 2, name: 'Peter' }], 'where')
-      fakeResponse({ success: true }, 'destroy')
+      fakeResponse
+        success: true
+        scoped_records: [{ id: 2, name: 'Peter' }]
+      , 'destroy'
 
       User.destroy(id: 2).then (success) ->
         expect(success).to.eql(true)
