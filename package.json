@@ -1,8 +1,8 @@
 {
   "name": "databound",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "Domas <domas.bitvinskas@me.com>",
-  "description": "Out-of-box ActiveRecord exposed to the Javascript side. Backend part gem included",
+  "description": "Exposes database ORM to the Javascript side. Backend part gem included",
   "main": "dist/databound.js",
   "homepage": "https://github.com/Nedomas/databound",
   "repository": {

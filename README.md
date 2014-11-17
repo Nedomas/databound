@@ -6,7 +6,7 @@
 
 ![Databound](https://cloud.githubusercontent.com/assets/1877286/4743542/df89dcec-5a28-11e4-9114-6f383fe269cb.png)
 
-Exposes ActiveRecord records to the Javascript side.
+Exposes database ORM to the Javascript side.
 
 **API documentation** [nedomas.github.io/databound](http://nedomas.github.io/databound/src/databound.html).
 
