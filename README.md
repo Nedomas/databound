@@ -107,33 +107,15 @@ class UsersController < ApplicationController
     User
   end
 
-  def override!(name, value, data)
-    if name == :city and value == 'hottest_city'
-      'Miami'
-    else
-      super
-    end
+  dsl(:city, :hottest) do
+    'Miami'
+  end
+
+  # set strict: false to make both dsl values and other values valid
+  dsl(:city, :hottest, strict: false) do |params|
+    'Miami'
   end
 end
-```
-
-## Semi-computed properties
-
-Library supports minimalistic version of computed properties.
-It attaches the properties on every record after the response from server.
-
-```js
-  User = new Databound('/users', { city: 'hottest_city' });
-  User.computed = function(user) {
-    return {
-      full_name: user.first_name + ' ' + user.last_name;
-    };
-  };
-
-  User.findBy(name: 'Vikki').then(function(user) {
-    // Vikki Minaj
-    alert(user.full_name);
-  });
 ```
 
 ## Extra find scopes
@@ -148,9 +130,34 @@ These scopes are used only for finding the records and are not used when creatin
 
   User.create(name: 'Nikki').then(function() {
     var all_users = User.takeAll();
+
     // ['Miami', 'New york']
     alert(_.map(all_users, function(user) { return user.city }));
   });
+```
+
+## Permitted columns
+
+By default the permitted columns are all the columns in the database table
+(ActiveRecord and Mongoid are supported).
+
+```ruby
+class UsersController < ApplicationController
+  include Databound
+
+  private
+
+  def model
+    User
+  end
+
+  def pemitted_columns
+    # it will raise an error if other column is requested
+    # all columns are allowed if :all is specified
+    # it can be used with DSL to convert non-existing field into another
+    [:name, :email]
+  end
+end
 ```
 
 ## Sponsors
