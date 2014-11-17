@@ -80,7 +80,7 @@ describe 'CRUD', ->
       fakeResponse
         success: true
         id: 1
-        scoped_records: [{ id: 1, name: 'John' }]
+        scoped_records: JSON.stringify([{ id: 1, name: 'John' }])
       , 'create'
 
       User.create(name: 'John').then (user) ->
@@ -91,7 +91,7 @@ describe 'CRUD', ->
       fakeResponse
         success: true
         id: 2
-        scoped_records: [{ id: 2, name: 'Peter' }]
+        scoped_records: JSON.stringify([{ id: 2, name: 'Peter' }])
       , 'update'
 
       User.update(id: 2, name: 'Peter').then (user) ->
@@ -101,7 +101,7 @@ describe 'CRUD', ->
     it 'should destroy a record and return if it was successful', ->
       fakeResponse
         success: true
-        scoped_records: []
+        scoped_records: JSON.stringify([])
       , 'destroy'
 
       User.destroy(id: 2).then (success) ->
@@ -111,7 +111,7 @@ describe 'CRUD', ->
     it 'should throw an error', ->
       fakeResponse
         success: true
-        scoped_records: [{ id: 2, name: 'Peter' }]
+        scoped_records: JSON.stringify([{ id: 2, name: 'Peter' }])
       , 'destroy'
 
       User.destroy(id: 2).then (success) ->
