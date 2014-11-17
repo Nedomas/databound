@@ -87,15 +87,13 @@ Databound.prototype.requestAndRefresh = function(action, params) {
   var _this;
   _this = this;
   return this.request(action, params).then(function(resp) {
-    var records;
+    var records, records_with_seeds;
     if (!(resp != null ? resp.success : void 0)) {
       throw new Error('Error in the backend');
     }
-    if (_.isString(resp.scoped_records)) {
-      resp.scoped_records = JSON.parse(resp.scoped_records);
-    }
-    records = resp.scoped_records.concat(_this.seeds);
-    _this.records = _.sortBy(records, 'id');
+    records = JSON.parse(resp.scoped_records);
+    records_with_seeds = records.concat(_this.seeds);
+    _this.records = _.sortBy(records_with_seeds, 'id');
     if (resp.id) {
       return _this.promise(_this.take(resp.id));
     } else {

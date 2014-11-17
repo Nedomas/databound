@@ -116,12 +116,9 @@ Databound::requestAndRefresh = (action, params) ->
   @request(action, params).then (resp) ->
     throw new Error 'Error in the backend' unless resp?.success
 
-    # TODO: fix inconsistency
-    if _.isString(resp.scoped_records)
-      resp.scoped_records = JSON.parse(resp.scoped_records)
-
-    records = resp.scoped_records.concat(_this.seeds)
-    _this.records = _.sortBy(records, 'id')
+    records = JSON.parse(resp.scoped_records)
+    records_with_seeds = records.concat(_this.seeds)
+    _this.records = _.sortBy(records_with_seeds, 'id')
 
     if resp.id
       _this.promise _this.take(resp.id)
