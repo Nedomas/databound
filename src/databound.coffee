@@ -103,6 +103,7 @@ class Databound
     _this = @
 
     # backend responds with:
+    #
     # ```javascript
     # {
     #   success: true,
