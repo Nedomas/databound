@@ -103,11 +103,13 @@ class Databound
     _this = @
 
     # backend responds with:
+    # ```javascript
     # {
     #   success: true,
     #   id: record.id,
     #   scoped_records: []
     # }
+    # ```
     @request(action, params).then (resp) ->
       throw new Error 'Error in the backend' unless resp?.success
 
