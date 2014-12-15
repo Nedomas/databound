@@ -89,7 +89,7 @@ For more info go to [Databound gem repo](https://github.com/Nedomas/databound-ra
 **Databound** supports any attribute DSL via method override.
 
 ```js
-  User = new Databound('/users', { city: 'hottest_city' });
+  User = new Databound('/users', { city: 'hottest' });
 
   User.create(name: 'Vikki').then(function(new_user) {
     // Vikki is from Miami
