@@ -162,5 +162,5 @@ end
 
 ## Sponsors
 
-The initial seed of Databound was shamefully sponsored by [SameSystem](http://www.samesystem.com) and
+Databound is sponsored and used by [SameSystem](http://www.samesystem.com) and
 developed during my time there.
