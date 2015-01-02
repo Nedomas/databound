@@ -9,7 +9,7 @@ Databound = (function() {
     this.endpoint = endpoint;
     this.scope = scope != null ? scope : {};
     this.options = options != null ? options : {};
-    this.extra_find_scopes = this.options.extra_find_scopes || [];
+    this.extra_where_scopes = this.options.extra_where_scopes || [];
     this.records = [];
     this.seeds = [];
     this.properties = [];
@@ -112,7 +112,7 @@ Databound = (function() {
   Databound.prototype.data = function(params) {
     return {
       scope: JSON.stringify(this.scope),
-      extra_find_scopes: JSON.stringify(this.extra_find_scopes),
+      extra_where_scopes: JSON.stringify(this.extra_where_scopes),
       data: JSON.stringify(params)
     };
   };

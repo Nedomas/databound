@@ -7,7 +7,7 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
     <span class="hljs-comment"># I am from New York</span>
     alert <span class="hljs-string">"I am from <span class="hljs-subst">#{new_user.city}</span>"</span></code></pre></div></div><div class="code"><div class="wrapper"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Databound</span></span>
   <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(<span class="hljs-property">@endpoint</span>, <span class="hljs-property">@scope</span> = {}, <span class="hljs-property">@options</span> = {})</span> -&gt;</span>
-    <span class="hljs-property">@extra_find_scopes</span> = <span class="hljs-property">@options</span>.extra_find_scopes <span class="hljs-keyword">or</span> []
+    <span class="hljs-property">@extra_where_scopes</span> = <span class="hljs-property">@options</span>.extra_where_scopes <span class="hljs-keyword">or</span> []
     <span class="hljs-property">@records</span> = []
     <span class="hljs-property">@seeds</span> = []
     <span class="hljs-property">@properties</span> = []</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="start-of-configs">Start of Configs</h2>
@@ -54,12 +54,12 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
     <span class="hljs-property">@seeds</span> = records
 
   <span class="hljs-attribute">requestAndRefresh</span>: <span class="hljs-function"><span class="hljs-params">(action, params)</span> -&gt;</span>
-    _this = @</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>backend responds with:
-```javascript
-{
-  success: true,
-  id: record.id,
-  scoped_records: []</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-comment"># </span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>```</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@request</span><span class="hljs-function"><span class="hljs-params">(action, params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(resp)</span> -&gt;</span>
+    _this = @</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>backend responds with:</p>
+<pre><code class="lang-javascript">  {
+    success: <span class="hljs-literal">true</span>,
+    id: record.id,
+    scoped_records: []
+  }</code></pre></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@request</span><span class="hljs-function"><span class="hljs-params">(action, params)</span>.<span class="hljs-title">then</span> <span class="hljs-params">(resp)</span> -&gt;</span>
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">'Error in the backend'</span> <span class="hljs-keyword">unless</span> resp?.success
 
       records = JSON.parse(resp.scoped_records)
@@ -79,7 +79,7 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
 
   <span class="hljs-attribute">data</span>: <span class="hljs-function"><span class="hljs-params">(params)</span> -&gt;</span>
     <span class="hljs-attribute">scope</span>: JSON.stringify(<span class="hljs-property">@scope</span>)
-    <span class="hljs-attribute">extra_find_scopes</span>: JSON.stringify(<span class="hljs-property">@extra_find_scopes</span>)
+    <span class="hljs-attribute">extra_where_scopes</span>: JSON.stringify(<span class="hljs-property">@extra_where_scopes</span>)
     <span class="hljs-attribute">data</span>: JSON.stringify(params)
 
 <span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = Databound</div></div></div></div></body></html>

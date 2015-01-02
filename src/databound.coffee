@@ -15,7 +15,7 @@ jQuery = require 'jquery'
 # ```
 class Databound
   constructor: (@endpoint, @scope = {}, @options = {}) ->
-    @extra_find_scopes = @options.extra_find_scopes or []
+    @extra_where_scopes = @options.extra_where_scopes or []
     @records = []
     @seeds = []
     @properties = []
@@ -84,8 +84,8 @@ class Databound
   update: (params) ->
     @requestAndRefresh 'update', params
 
-  destroy: (params) ->
-    @requestAndRefresh 'destroy', params
+  destroy: (id) ->
+    @requestAndRefresh 'destroy', id: id
 
   # Just take already dowloaded records
   take: (id) ->
@@ -95,7 +95,7 @@ class Databound
   takeAll: ->
     @records
 
-  # F.e. Have default records
+  # f.e. Have default records
   injectSeedRecords: (records) ->
     @seeds = records
 
@@ -131,7 +131,7 @@ class Databound
 
   data: (params) ->
     scope: JSON.stringify(@scope)
-    extra_find_scopes: JSON.stringify(@extra_find_scopes)
+    extra_where_scopes: JSON.stringify(@extra_where_scopes)
     data: JSON.stringify(params)
 
 module.exports = Databound
