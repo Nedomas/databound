@@ -107,7 +107,8 @@ end
 var User = new Databound('/users');
 ```
 
-## Sponsors
+## Used and sponsored by
 
-Databound is sponsored and used by [SameSystem](http://www.samesystem.com) and
-developed during my time there.
+[![SameSystem](https://cloud.githubusercontent.com/assets/1877286/5600690/888671c8-92e8-11e4-9820-e06e8788d768.jpg)](http://samesystem.com)
+
+[![Spacepicnic](https://cloud.githubusercontent.com/assets/1877286/5600676/2a092906-92e8-11e4-983e-08a36fac015a.png)](http://spacepicnic.net)
