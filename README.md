@@ -46,7 +46,7 @@ Depends on:
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '0.2.1'
+gem 'databound', '1.0.1'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -109,7 +109,7 @@ var User = new Databound('/users');
 
 ## Changelog
 
-*1.0.0* - 2015-01-03
+**1.0.0** - 2015-01-03
 
 * Destroy now accepts ``id`` instead of ``{ id: someid }``.
 * ``extra_find_scopes`` renamed to ``extra_where_scopes``
