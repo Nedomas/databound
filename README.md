@@ -49,7 +49,7 @@ Depends on:
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '1.0.2'
+gem 'databound', '1.1.0'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -116,7 +116,12 @@ var User = new Databound('/users');
 
 Specify ``permitted_columns``. By default - all table columns.
 
+**How to protect the scope of the modifiable records?**
+
+Use ``permit_update_create?`` to check permissions.
+
 **Which parts can Javascript show?**
+
 Use [Active Model Serializers](https://github.com/rails-api/active_model_serializers) to serialize the record.
 
 ## Changelog
