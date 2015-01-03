@@ -126,6 +126,10 @@ Use [Active Model Serializers](https://github.com/rails-api/active_model_seriali
 
 ## Changelog
 
+**1.1.0** - 2015-01-03
+
+* You can specify ``permit_update_destroy?`` on a controller to manage the scope of the records that can be modified from the Javascript.
+
 **1.0.0** - 2015-01-03
 
 * Destroy now accepts ``id`` instead of ``{ id: someid }``.
