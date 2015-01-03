@@ -37,6 +37,7 @@ Works with:
 - Ruby **2.0+**
 - It can work with **Angular** as a better **ngResource** alternative
 - ActiveRecord or Mongoid
+- Works with [Active Model Serializers](https://github.com/rails-api/active_model_serializers)
 - Chrome **any**, Firefox **any**, Opera **any**, IE **8+**
 
 Depends on:
@@ -106,6 +107,15 @@ end
 ```javascript
 var User = new Databound('/users');
 ```
+
+## Security
+
+**Which parts can Javascript modify?**
+
+Specify ``permitted_columns``.
+
+**Which parts can Javascript show?**
+Use [Active Model Serializers](https://github.com/rails-api/active_model_serializers) to serialize the record.
 
 ## Changelog
 
