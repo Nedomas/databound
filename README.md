@@ -46,7 +46,7 @@ Depends on:
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '1.0.1'
+gem 'databound', '1.0.2'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
