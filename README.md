@@ -107,6 +107,13 @@ end
 var User = new Databound('/users');
 ```
 
+## Changelog
+
+*1.0.0* - 2015-01-03
+
+* Destroy now accepts ``id`` instead of ``{ id: someid }``.
+* ``extra_find_scopes`` renamed to ``extra_where_scopes``
+
 ## Used and sponsored by
 
 [![SameSystem](https://cloud.githubusercontent.com/assets/1877286/5602104/d8e44986-933f-11e4-8e64-b0c8e83a94d1.jpg)](http://samesystem.com) [![picnic-right](https://cloud.githubusercontent.com/assets/1877286/5602105/dab01272-933f-11e4-9aab-624ba81825d9.png)](http://spacepicnic.net)

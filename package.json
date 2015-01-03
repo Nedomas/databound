@@ -1,8 +1,8 @@
 {
   "name": "databound",
-  "version": "0.1.0",
-  "author": "Domas <domas.bitvinskas@me.com>",
-  "description": "Exposes database ORM to the Javascript side. Backend part gem included",
+  "version": "1.0.0",
+  "author": "Domas Bitvinskas <domas.bitvinskas@me.com>",
+  "description": "Exposes Ruby on Rails database to the Javascript side",
   "main": "dist/databound.js",
   "homepage": "https://github.com/Nedomas/databound",
   "repository": {
@@ -17,7 +17,10 @@
     "queries",
     "rest",
     "rails",
-    "backend"
+    "backend",
+    "activerecord",
+    "mongoid",
+    "orm"
   ],
   "devDependencies": {
     "chai": "^1.9.2",
