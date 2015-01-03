@@ -60,8 +60,10 @@ Databound = (function() {
     return this.requestAndRefresh('update', params);
   };
 
-  Databound.prototype.destroy = function(params) {
-    return this.requestAndRefresh('destroy', params);
+  Databound.prototype.destroy = function(id) {
+    return this.requestAndRefresh('destroy', {
+      id: id
+    });
   };
 
   Databound.prototype.take = function(id) {

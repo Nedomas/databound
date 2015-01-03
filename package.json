@@ -1,6 +1,6 @@
 {
   "name": "databound",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Domas Bitvinskas <domas.bitvinskas@me.com>",
   "description": "Exposes Ruby on Rails database to the Javascript side",
   "main": "dist/databound.js",
