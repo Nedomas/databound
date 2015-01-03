@@ -109,6 +109,4 @@ var User = new Databound('/users');
 
 ## Used and sponsored by
 
-[![SameSystem](https://cloud.githubusercontent.com/assets/1877286/5600690/888671c8-92e8-11e4-9820-e06e8788d768.jpg)](http://samesystem.com)
-
-[![Spacepicnic](https://cloud.githubusercontent.com/assets/1877286/5600676/2a092906-92e8-11e4-983e-08a36fac015a.png)](http://spacepicnic.net)
+[![SameSystem](https://cloud.githubusercontent.com/assets/1877286/5602104/d8e44986-933f-11e4-8e64-b0c8e83a94d1.jpg)](http://samesystem.com) [![picnic-right](https://cloud.githubusercontent.com/assets/1877286/5602105/dab01272-933f-11e4-9aab-624ba81825d9.png)](http://spacepicnic.net)
