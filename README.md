@@ -112,7 +112,7 @@ var User = new Databound('/users');
 
 **Which parts can Javascript modify?**
 
-Specify ``permitted_columns``.
+Specify ``permitted_columns``. By default - all table columns.
 
 **Which parts can Javascript show?**
 Use [Active Model Serializers](https://github.com/rails-api/active_model_serializers) to serialize the record.
