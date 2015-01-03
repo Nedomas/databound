@@ -78,7 +78,7 @@ class Databound
   #   User.update(id: 15, name: 'Saint John').then (updated_user) ->
   #     alert updated_user
   #
-  #   User.destroy(id: 15).then (resp) ->
+  #   User.destroy(15).then (resp) ->
   #     alert resp.success
   # ```
   update: (params) ->
