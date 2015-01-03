@@ -10,6 +10,8 @@ Exposes Ruby on Rails database to the Javascript side.
 
 **Check out live examples on the Databound website** [databound.me](http://databound.me).
 
+**Backend gem repo** [github.com/Nedomas/databound-rails](http://github.com/Nedomas/databound-rails).
+
 ## Usage
 
 ```js
