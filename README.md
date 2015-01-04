@@ -6,7 +6,7 @@
 
 ![Databound](https://cloud.githubusercontent.com/assets/1877286/4743542/df89dcec-5a28-11e4-9114-6f383fe269cb.png)
 
-Exposes Ruby on Rails database to the Javascript side.
+Provides Javascript a simple CRUD API to the Ruby on Rails backend.
 
 **Check out live examples on the Databound website** [databound.me](http://databound.me).
 
@@ -49,7 +49,7 @@ Depends on:
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '1.1.0'
+gem 'databound', '2.0.1'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -102,6 +102,10 @@ class UsersController < ApplicationController
   def model
     User
   end
+
+  def permitted_columns
+    [:name, :city]
+  end
 end
 ```
 
@@ -114,17 +118,25 @@ var User = new Databound('/users');
 
 **Which parts can Javascript modify?**
 
-Specify ``permitted_columns``. By default - all table columns.
+Specify ``permitted_columns``. No columns are modifiable by default.
+
+**How to secure the relation values?**
+
+You can use ``dsl(:your_column, :expected_value)`` to only allow certain dsl values and convert them to relation ids in the backend.
 
 **How to protect the scope of the modifiable records?**
 
-Use ``permit_update_create?`` to check permissions.
+Use ``permit_update_destroy?`` to check permissions.
 
 **Which parts can Javascript show?**
 
 Use [Active Model Serializers](https://github.com/rails-api/active_model_serializers) to serialize the record.
 
 ## Changelog
+
+**2.0.1** - 2015-01-03
+
+* Add support for specifying ``permitted_columns`` in ``routes.rb``. No columns are modifiable by default.
 
 **1.1.0** - 2015-01-03
 
