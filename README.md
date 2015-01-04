@@ -88,7 +88,7 @@ var Databound = require('databound');
 **3 - Add a route to config/routes.rb**
 ```ruby
 Rails.application.routes.draw do
-  databound :users
+  databound :users, permitted_columns: [:name, :city]
 end
 ```
 
@@ -98,6 +98,8 @@ But if you already have a controller, you can include Databound and specify the 
 ```ruby
 class UsersController < ApplicationController
   include Databound
+
+  private
 
   def model
     User
