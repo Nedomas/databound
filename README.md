@@ -38,12 +38,17 @@ Works with:
 - Ruby on Rails **3+**
 - Ruby **2.0+**
 - It can work with **Angular** as a better **ngResource** alternative
+- [Rails API](https://github.com/rails-api/rails-api)
 - ActiveRecord or Mongoid
-- Works with [Active Model Serializers](https://github.com/rails-api/active_model_serializers)
+- [Active Model Serializers](https://github.com/rails-api/active_model_serializers)
 - Chrome **any**, Firefox **any**, Opera **any**, IE **8+**
 
 Depends on:
 - Lodash (should work with any version)
+- jQuery **1.5+**
+
+jQuery is used for making requests and promises. 
+You can use your own library instead. Read [API docs](http://nedomas.github.io/databound/src/databound.html) on how to override those.
 
 ## Installation
 
@@ -111,7 +116,15 @@ class UsersController < ApplicationController
 end
 ```
 
-**5 - Use it in the Javascript**
+**5 - Install dependencies (skip if with ``require.js``)**
+
+Easiest way is to use the official Ruby gems or include them from CDNs.
+
+**Lo-Dash** - [lodash-rails gem](https://github.com/rh/lodash-rails) or [CDN](http://cdnjs.com/libraries/lodash.js).
+
+**jQuery** *(already installed by default on Rails)* - [jquery-rails gem](https://github.com/rails/jquery-rails) or [CDN](https://code.jquery.com)
+
+**6 - Use it in the Javascript**
 ```javascript
 var User = new Databound('/users');
 ```
@@ -133,6 +146,8 @@ Use ``permit_update_destroy?`` to check permissions.
 **Which parts can Javascript show?**
 
 Use [Active Model Serializers](https://github.com/rails-api/active_model_serializers) to serialize the record.
+
+If you don't want to use that, you can overwrite ``as_json`` method on the model.
 
 ## Changelog
 
