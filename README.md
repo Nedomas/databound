@@ -22,11 +22,11 @@ Provides Javascript a simple CRUD API to the Ruby on Rails backend.
   });
 
   User.find(15).then(function(user) {
-   print('User no. 15: ' + user.name);
+    alert('User no. 15: ' + user.name);
   });
 
   User.create({ name: 'Peter' }).then(function(user) {
-   print('I am ' + user.name + ' from database');
+    alert('I am ' + user.name + ' from database');
   });
 ```
 
