@@ -7,8 +7,8 @@
   "description": "Exposes Ruby on Rails database to the Javascript side",
   "main": "dist/databound.js",
   "dependencies": {
-    "jquery": "2.1.1",
-    "lodash": "2.4.1"
+    "jquery": "^2.1.1",
+    "lodash": "^2.4.1"
   },
   "license": "MIT",
   "keywords": [

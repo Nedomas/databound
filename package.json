@@ -23,18 +23,18 @@
     "orm"
   ],
   "devDependencies": {
-    "chai": "^1.9.2",
-    "coffee-script": "1.8.0",
-    "fs": "0.0.2",
-    "groc": "0.7.0",
-    "gulp": "3.8.8",
+    "chai": "^1.10.0",
+    "coffee-script": "^1.8.0",
+    "fs": "^0.0.2",
+    "groc": "^0.8.0",
+    "gulp": "^3.8.10",
     "gulp-coffee": "2.2.0",
-    "gulp-mocha": "^1.1.1",
+    "gulp-mocha": "^2.0.0",
     "gulp-rename": "^1.2.0",
-    "gulp-replace": "^0.4.0",
-    "gulp-shell": "^0.2.10",
-    "gulp-util": "3.0.1",
-    "gulp-watch": "^1.1.0",
-    "mocha": "^1.21.5"
+    "gulp-replace": "^0.5.0",
+    "gulp-shell": "^0.2.11",
+    "gulp-util": "^3.0.1",
+    "gulp-watch": "^3.0.0",
+    "mocha": "^2.1.0"
   }
 }
