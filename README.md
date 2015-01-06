@@ -149,7 +149,22 @@ Use [Active Model Serializers](https://github.com/rails-api/active_model_seriali
 
 If you don't want to use that, you can overwrite ``as_json`` method on the model.
 
+## Contributing :heart:
+
+1. Fork it
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create a new Pull Request
+6. Get ice cream :ice_cream:
+
 ## Changelog
+
+**Next release**
+
+* ``.all`` method.
+* Simpler usage of security features.
+* Your contribution here.
 
 **2.0.1** - 2015-01-03
 
