@@ -147,7 +147,7 @@ Databound provides a convenience method ``permit_update_destroy?`` to check perm
       record.client_id == current_client_id
     end
 
-However, this couples the permission logic to the controller.  You can use logic method in the controller to limit access to the correct users just like any other rails request.  Here are some examples using 3 of the more popular libraries to prevent users from destroying or updating records that are not their own.
+However, this couples the permission logic to the controller.  You can use regular logic methods in the controller to limit access to the correct users just like any other rails controller request.  Here are some examples using 3 of the more popular libraries to prevent users from destroying or updating records that are not their own.
 
 '''
 class UsersController < ApplicationController
