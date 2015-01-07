@@ -141,7 +141,39 @@ You can use ``dsl(:your_column, :expected_value)`` to only allow certain dsl val
 
 **How to protect the scope of the modifiable records?**
 
-Use ``permit_update_destroy?`` to check permissions.
+Databound provides a convenience method ``permit_update_destroy?`` to check permissions by adding it as an instance method to the databound controller like so
+
+    permit_update_destroy? do |record|
+      record.client_id == current_client_id
+    end
+
+However, this couples the permission logic to the controller.  You can use logic method in the controller to limit access to the correct users just like any other rails request.  Here are some examples using 3 of the more popular libraries to prevent users from destroying or updating records that are not their own.
+
+'''
+class UsersController < ApplicationController
+  include databound
+
+  #CanCanCan gem - ability.rb defines authorize
+  def destroy
+    authorize! :destroy, @user
+    @user.destroy
+  end
+
+  #Pundit - policy/user_policy.rb defines destroy
+  def destroy
+    authorize @user
+    @user.destroy
+  end
+
+  #just Ruby
+  def destroy
+    if current_user.id == @user.id
+      @user.destroy
+    end
+  end
+end
+
+
 
 **Which parts can Javascript show?**
 
