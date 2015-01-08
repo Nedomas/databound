@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '2.0.1'
+gem 'databound', '3.0.0'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -93,7 +93,7 @@ var Databound = require('databound');
 **3 - Add a route to config/routes.rb**
 ```ruby
 Rails.application.routes.draw do
-  databound :users, permitted_columns: [:name, :city]
+  databound :users, columns: [:name, :city]
 end
 ```
 
@@ -102,16 +102,9 @@ end
 But if you already have a controller, you can include Databound and specify the model yourself.
 ```ruby
 class UsersController < ApplicationController
-  include Databound
-
-  private
-
-  def model
-    User
-  end
-
-  def permitted_columns
-    [:name, :city]
+  databound do
+    model :user
+    columns :name, :city
   end
 end
 ```
@@ -133,15 +126,43 @@ var User = new Databound('/users');
 
 **Which parts can Javascript modify?**
 
-Specify ``permitted_columns``. No columns are modifiable by default.
+Specify ``columns``.
+
+By default - no columns are modifiable.
 
 **How to secure the relation values?**
 
 You can use ``dsl(:your_column, :expected_value)`` to only allow certain dsl values and convert them to relation ids in the backend.
 
-**How to protect the scope of the modifiable records?**
+**How to protect the scope of the records?**
 
-Use ``permit_update_destroy?`` to check permissions.
+If you need a reference to the record being modified, use ``permit``. It will give you a parsed record.
+
+It also works with 3rd party libraries.
+
+```ruby
+class ProjectsController < ApplicationController
+  databound do
+    model :project
+    columns :name, :city
+
+    # CanCanCan gem
+    permit(:create) do
+      authorize! :create, current_user
+    end
+
+    # Pundit
+    permit(:update) do
+      authorize current_user
+    end
+
+    # Plain Ruby
+    permit(:destroy) do
+      current_user.god?
+    end
+  end
+end
+```
 
 **Which parts can Javascript show?**
 
@@ -165,6 +186,19 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 * ``.all`` method.
 * Simpler usage of security features.
 * Your contribution here.
+* 
+**3.0.0** - 2015-01-08
+
+* Simplify configuration setup and improve performance.
+
+```ruby
+class ProjectsController < ApplicationController
+  databound do
+    model :project
+    columns :name, :city
+  end
+end
+```
 
 **2.0.1** - 2015-01-03
 
