@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '3.0.0'
+gem 'databound', '3.0.1'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -186,7 +186,10 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 * ``.all`` method.
 * Simpler usage of security features.
 * Your contribution here.
-* 
+
+**3.0.1** - 2015-01-08
+* Minor bugfix
+
 **3.0.0** - 2015-01-08
 
 * Simplify configuration setup and improve performance.
