@@ -193,6 +193,7 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 **3.0.0** - 2015-01-08
 
 * Simplify configuration setup and improve performance.
+* Thanks to [@Austio](https://github.com/Austio) for docs on 3rd party authentication libraries.
 
 ```ruby
 class ProjectsController < ApplicationController
