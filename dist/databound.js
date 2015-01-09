@@ -58,13 +58,23 @@ Databound = (function() {
     });
   };
 
+  Databound.prototype.all = function() {
+    return this.where();
+  };
+
   Databound.prototype.find = function(id) {
     var _this;
+    this.checkUndefinedId('find', id);
     _this = this;
     return this.where({
       id: id
     }).then(function() {
-      return _this.promise(_this.take(id));
+      var record;
+      record = _this.take(id);
+      if (!record) {
+        throw new DataboundError("Couldn't find record with id: " + id);
+      }
+      return _this.promise(record);
     });
   };
 
@@ -85,6 +95,7 @@ Databound = (function() {
   };
 
   Databound.prototype.destroy = function(id) {
+    this.checkUndefinedId('destroy', id);
     return this.requestAndRefresh('destroy', {
       id: id
     });
@@ -136,13 +147,20 @@ Databound = (function() {
     };
   };
 
+  Databound.prototype.checkUndefinedId = function(action, id) {
+    if (!_.isUndefined(id)) {
+      return;
+    }
+    throw new DataboundError("Couldn't " + action + " a record without an id");
+  };
+
   return Databound;
 
 })();
 
 DataboundError = (function() {
   function DataboundError(text) {
-    this.message = "DATABOUND ERROR - " + text;
+    this.message = "Databound: " + text;
   }
 
   return DataboundError;

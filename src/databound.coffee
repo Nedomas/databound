@@ -35,20 +35,6 @@ class Databound
     deferred.promise()
   # ## End of Configs
 
-  wrappedRequest: (args...) ->
-    _this = @
-
-    @request(args...).then((resp) ->
-      throw new Error 'Error in the backend' unless resp?.success
-
-      _this.promise(resp)
-    ).fail((e) ->
-      if e.status == 405
-        throw new DataboundError(e.responseJSON.message)
-      else
-        throw new Error "Error in the backend with status #{e.status}"
-    )
-
   where: (params) ->
     _this = @
 
@@ -57,6 +43,9 @@ class Databound
       _this.records = _.sortBy(records, 'id')
       _this.promise _this.records
 
+  all: ->
+    @where()
+
   # Return a single record by ``id``
   #
   # ```coffeescript
@@ -64,10 +53,16 @@ class Databound
   #   alert "Yo, #{user.name}"
   # ```
   find: (id) ->
-    _this = @
+    @checkUndefinedId('find', id)
 
+    _this = @
     @where(id: id).then ->
-      _this.promise _this.take(id)
+      record = _this.take(id)
+
+      unless record
+        throw new DataboundError("Couldn't find record with id: #{id}")
+
+      _this.promise record
 
   # Return a single record by ``params``
   #
@@ -99,6 +94,7 @@ class Databound
     @requestAndRefresh 'update', params
 
   destroy: (id) ->
+    @checkUndefinedId('destroy', id)
     @requestAndRefresh 'destroy', id: id
 
   # Just take already dowloaded records
@@ -146,9 +142,28 @@ class Databound
     extra_where_scopes: JSON.stringify(@extra_where_scopes)
     data: JSON.stringify(params)
 
+  wrappedRequest: (args...) ->
+    @request(args...).then(@handleSuccess).fail(@handleFailure)
+
+  handleSuccess: (resp) ->
+    throw new Error 'Error in the backend' unless resp?.success
+
+    @promise(resp)
+
+  handleFailure: (e) ->
+    if e.status == 405
+      throw new DataboundError(e.responseJSON.message)
+    else
+      throw new Error "Error in the backend with status #{e.status}"
+
+  checkUndefinedId: (action, id) ->
+    return unless _.isUndefined(id)
+
+    throw new DataboundError("Couldn't #{action} a record without an id")
+
 class DataboundError
   constructor: (text) ->
-    @message = "DATABOUND ERROR - #{text}"
+    @message = "Databound: #{text}"
 
 DataboundError:: = new Error()
 

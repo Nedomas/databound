@@ -8,7 +8,7 @@ describe 'databound error', ->
     }, (->
 
       expect(-> User.create(city: 'Hawaii')).to.throw(Error,
-        'DATABOUND ERROR - Request includes unpermitted columns: city')
+        'Databound: Request includes unpermitted columns: city')
     ), 'reject'
 
   it 'unpermitted action', ->
@@ -20,5 +20,5 @@ describe 'databound error', ->
     }, (->
 
       expect(-> User.destroy(1)).to.throw(Error,
-        'DATABOUND ERROR - Request for destroy not permitted')
+        'Databound: Request for destroy not permitted')
     ), 'reject'
