@@ -7,6 +7,8 @@ mocha = require 'gulp-mocha'
 watch = require 'gulp-watch'
 replace = require 'gulp-replace'
 rename = require 'gulp-rename'
+chai = require 'chai'
+sinonChai = require 'sinon-chai'
 
 gulp.task 'default', ['build', 'docs']
 
@@ -33,7 +35,9 @@ gulp.task 'build', ['coffee'], ->
 gulp.task 'docs', shell.task('node_modules/groc/bin/groc src/*.coffee')
 
 gulp.task 'test', ->
-  gulp.src('test/**/*.coffee',
-      read: false
-  )
-  .pipe(mocha(ui: 'bdd'))
+  chai.use(sinonChai)
+  global.expect = chai.expect
+  gulp.src('spec/**/*.coffee', read: false)
+  .pipe(mocha(
+    reporter: 'spec'
+  ).on('error', gutil.log))

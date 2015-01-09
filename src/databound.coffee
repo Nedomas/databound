@@ -35,11 +35,26 @@ class Databound
     deferred.promise()
   # ## End of Configs
 
+  wrappedRequest: (args...) ->
+    _this = @
+
+    @request(args...).then((resp) ->
+      throw new Error 'Error in the backend' unless resp?.success
+
+      _this.promise(resp)
+
+    ).fail((e) ->
+      if e.status == 405
+        throw new DataboundError(e.responseJSON.message)
+      else
+        throw new Error "Error in the backend with status #{e.status}"
+    )
+
   where: (params) ->
     _this = @
 
-    @request('where', params).then (records) ->
-      records = records.concat(_this.seeds)
+    @wrappedRequest('where', params).then (resp) ->
+      records = JSON.parse(resp.records).concat(_this.seeds)
       _this.records = _.sortBy(records, 'id')
       _this.promise _this.records
 
@@ -111,9 +126,7 @@ class Databound
     #     scoped_records: []
     #   }
     # ```
-    @request(action, params).then (resp) ->
-      throw new Error 'Error in the backend' unless resp?.success
-
+    @wrappedRequest(action, params).then (resp) ->
       records = JSON.parse(resp.scoped_records)
       records_with_seeds = records.concat(_this.seeds)
       _this.records = _.sortBy(records_with_seeds, 'id')
@@ -133,5 +146,11 @@ class Databound
     scope: JSON.stringify(@scope)
     extra_where_scopes: JSON.stringify(@extra_where_scopes)
     data: JSON.stringify(params)
+
+class DataboundError
+  constructor: (text) ->
+    @message = "DATABOUND ERROR - #{text}"
+
+DataboundError:: = new Error()
 
 module.exports = Databound

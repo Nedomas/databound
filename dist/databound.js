@@ -1,4 +1,5 @@
-var Databound, jQuery, _;
+var Databound, DataboundError, jQuery, _,
+  __slice = [].slice;
 
 _ = require('lodash');
 
@@ -28,11 +29,30 @@ Databound = (function() {
     return deferred.promise();
   };
 
+  Databound.prototype.wrappedRequest = function() {
+    var args, _this;
+    args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    _this = this;
+    return this.request.apply(this, args).then(function(resp) {
+      if (!(resp != null ? resp.success : void 0)) {
+        throw new Error('Error in the backend');
+      }
+      return _this.promise(resp);
+    }).fail(function(e) {
+      if (e.status === 405) {
+        throw new DataboundError(e.responseJSON.message);
+      } else {
+        throw new Error("Error in the backend with status " + e.status);
+      }
+    });
+  };
+
   Databound.prototype.where = function(params) {
     var _this;
     _this = this;
-    return this.request('where', params).then(function(records) {
-      records = records.concat(_this.seeds);
+    return this.wrappedRequest('where', params).then(function(resp) {
+      var records;
+      records = JSON.parse(resp.records).concat(_this.seeds);
       _this.records = _.sortBy(records, 'id');
       return _this.promise(_this.records);
     });
@@ -87,11 +107,8 @@ Databound = (function() {
   Databound.prototype.requestAndRefresh = function(action, params) {
     var _this;
     _this = this;
-    return this.request(action, params).then(function(resp) {
+    return this.wrappedRequest(action, params).then(function(resp) {
       var records, records_with_seeds;
-      if (!(resp != null ? resp.success : void 0)) {
-        throw new Error('Error in the backend');
-      }
       records = JSON.parse(resp.scoped_records);
       records_with_seeds = records.concat(_this.seeds);
       _this.records = _.sortBy(records_with_seeds, 'id');
@@ -122,5 +139,16 @@ Databound = (function() {
   return Databound;
 
 })();
+
+DataboundError = (function() {
+  function DataboundError(text) {
+    this.message = "DATABOUND ERROR - " + text;
+  }
+
+  return DataboundError;
+
+})();
+
+DataboundError.prototype = new Error();
 
 module.exports = Databound;
