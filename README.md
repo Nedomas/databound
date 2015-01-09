@@ -183,7 +183,9 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 
 **Next release**
 
+* Better Javascript error messages.
 * ``.all`` method.
+* Associations.
 * Your contribution here.
 
 **3.0.3** - 2015-01-09
