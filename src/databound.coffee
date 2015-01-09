@@ -42,7 +42,6 @@ class Databound
       throw new Error 'Error in the backend' unless resp?.success
 
       _this.promise(resp)
-
     ).fail((e) ->
       if e.status == 405
         throw new DataboundError(e.responseJSON.message)

@@ -35,7 +35,6 @@ global.stubResponse = (resp, fn, type = 'resolve') ->
       deferred.promise()
 
     fn()
-
     stub.restore()
 
 stringify = _.curry((resp, name) ->

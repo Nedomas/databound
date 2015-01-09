@@ -24,7 +24,6 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">'Error in the backend'</span> <span class="hljs-keyword">unless</span> resp?.success
 
       _this.promise(resp)
-
     ).fail(<span class="hljs-function"><span class="hljs-params">(e)</span> -&gt;</span>
       <span class="hljs-keyword">if</span> e.status == <span class="hljs-number">405</span>
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DataboundError(e.responseJSON.message)
