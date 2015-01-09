@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '3.0.1'
+gem 'databound', '3.0.3'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -184,8 +184,13 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 **Next release**
 
 * ``.all`` method.
-* Simpler usage of security features.
 * Your contribution here.
+
+**3.0.3** - 2015-01-09
+* Fix bootup of a default Rails stack in production with ``databound`` and ``eager_load``
+
+**3.0.2** - 2015-01-08
+* ``read`` action of ``permit`` returning ``false`` now returns empty scoped records
 
 **3.0.1** - 2015-01-08
 * Minor bugfix
