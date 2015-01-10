@@ -1,8 +1,8 @@
-[![Gem Version](https://badge.fury.io/rb/databound.svg)](http://badge.fury.io/rb/databound)
-[![Bower version](https://badge.fury.io/bo/databound.svg)](http://badge.fury.io/bo/databound)
-[![NPM version](https://badge.fury.io/js/databound.svg)](http://badge.fury.io/js/databound)
-[![Code Climate](https://codeclimate.com/github/Nedomas/databound/badges/gpa.svg)](https://codeclimate.com/github/Nedomas/databound)
-[![Build Status](https://travis-ci.org/Nedomas/databound.svg)](https://travis-ci.org/Nedomas/databound)
+[![Gem](https://img.shields.io/gem/v/databound.svg?style=flat-square)](https://rubygems.org/gems/databound)
+[![Bower](https://img.shields.io/bower/v/databound.svg?style=flat-square)](http://bower.io/search/?q=databound)
+[![npm](https://img.shields.io/npm/v/databound.svg?style=flat-square)](https://www.npmjs.com/package/databound)
+[![Code Climate](http://img.shields.io/codeclimate/github/Nedomas/databound.svg?style=flat-square)](https://codeclimate.com/github/Nedomas/databound)
+[![Build Status](http://img.shields.io/travis/Nedomas/databound.svg?style=flat-square)](https://travis-ci.org/Nedomas/databound)]
 
 ![Databound](https://cloud.githubusercontent.com/assets/1877286/4743542/df89dcec-5a28-11e4-9114-6f383fe269cb.png)
 
