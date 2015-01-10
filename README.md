@@ -2,7 +2,7 @@
 [![Bower](https://img.shields.io/bower/v/databound.svg?style=flat-square)](http://bower.io/search/?q=databound)
 [![npm](https://img.shields.io/npm/v/databound.svg?style=flat-square)](https://www.npmjs.com/package/databound)
 [![Code Climate](http://img.shields.io/codeclimate/github/Nedomas/databound.svg?style=flat-square)](https://codeclimate.com/github/Nedomas/databound)
-[![Build Status](http://img.shields.io/travis/Nedomas/databound.svg?style=flat-square)](https://travis-ci.org/Nedomas/databound)]
+[![Build Status](http://img.shields.io/travis/Nedomas/databound.svg?style=flat-square)](https://travis-ci.org/Nedomas/databound)
 
 ![Databound](https://cloud.githubusercontent.com/assets/1877286/4743542/df89dcec-5a28-11e4-9114-6f383fe269cb.png)
 
@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '3.0.3'
+gem 'databound', '3.1.0'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -183,10 +183,12 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 
 **Next release**
 
-* Better Javascript error messages.
-* ``.all`` method.
 * Associations.
 * Your contribution here.
+
+**3.1.0** - 2015-01-10
+* Friendly error messages in development environment.
+* ``.all`` method.
 
 **3.0.3** - 2015-01-09
 * Fix bootup of a default Rails stack in production with ``databound`` and ``eager_load``
