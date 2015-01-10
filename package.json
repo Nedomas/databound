@@ -1,6 +1,6 @@
 {
   "name": "databound",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Domas Bitvinskas <domas.bitvinskas@me.com>",
   "description": "Provides Javascript a simple API to the Ruby on Rails CRUD",
   "main": "dist/databound.js",
