@@ -33,26 +33,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "src/databound",
             "title": "databound"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Start of Configs",
-                "slug": "start-of-configs"
-              },
-              "depth": 2
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "End of Configs",
-                "slug": "end-of-configs"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }
       ]
     }

@@ -25,24 +25,6 @@ Databound = (function() {
     return deferred.promise();
   };
 
-  Databound.prototype.wrappedRequest = function() {
-    var args, _this;
-    args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-    _this = this;
-    return this.request.apply(this, args).then(function(resp) {
-      if (!(resp != null ? resp.success : void 0)) {
-        throw new Error('Error in the backend');
-      }
-      return _this.promise(resp);
-    }).fail(function(e) {
-      if (e.status === 405) {
-        throw new DataboundError(e.responseJSON.message);
-      } else {
-        throw new Error("Error in the backend with status " + e.status);
-      }
-    });
-  };
-
   Databound.prototype.where = function(params) {
     var _this;
     _this = this;
@@ -141,6 +123,27 @@ Databound = (function() {
       extra_where_scopes: JSON.stringify(this.extra_where_scopes),
       data: JSON.stringify(params)
     };
+  };
+
+  Databound.prototype.wrappedRequest = function() {
+    var args;
+    args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    return this.request.apply(this, args).then(this.handleSuccess).fail(this.handleFailure);
+  };
+
+  Databound.prototype.handleSuccess = function(resp) {
+    if (!(resp != null ? resp.success : void 0)) {
+      throw new Error('Error in the backend');
+    }
+    return this.promise(resp);
+  };
+
+  Databound.prototype.handleFailure = function(e) {
+    if (e.status === 405) {
+      throw new DataboundError(e.responseJSON.message);
+    } else {
+      throw new Error("Error in the backend with status " + e.status);
+    }
   };
 
   Databound.prototype.checkUndefinedId = function(action, id) {
