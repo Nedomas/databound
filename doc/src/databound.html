@@ -95,7 +95,7 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
     <span class="hljs-attribute">data</span>: JSON.stringify(params)
 
   <span class="hljs-attribute">wrappedRequest</span>: <span class="hljs-function"><span class="hljs-params">(args...)</span> -&gt;</span>
-    <span class="hljs-property">@request</span>(args...).<span class="hljs-keyword">then</span>(<span class="hljs-property">@handleSuccess</span>).fail(<span class="hljs-property">@handleFailure</span>)
+    <span class="hljs-property">@request</span>(args...).<span class="hljs-keyword">then</span>(_.bind(<span class="hljs-property">@handleSuccess</span>, @)).fail(<span class="hljs-property">@handleFailure</span>)
 
   <span class="hljs-attribute">handleSuccess</span>: <span class="hljs-function"><span class="hljs-params">(resp)</span> -&gt;</span>
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">'Error in the backend'</span> <span class="hljs-keyword">unless</span> resp?.success

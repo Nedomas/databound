@@ -143,7 +143,7 @@ class Databound
     data: JSON.stringify(params)
 
   wrappedRequest: (args...) ->
-    @request(args...).then(@handleSuccess).fail(@handleFailure)
+    @request(args...).then(_.bind(@handleSuccess, @)).fail(@handleFailure)
 
   handleSuccess: (resp) ->
     throw new Error 'Error in the backend' unless resp?.success

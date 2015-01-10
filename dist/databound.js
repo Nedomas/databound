@@ -132,7 +132,7 @@ Databound = (function() {
   Databound.prototype.wrappedRequest = function() {
     var args;
     args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-    return this.request.apply(this, args).then(this.handleSuccess).fail(this.handleFailure);
+    return this.request.apply(this, args).then(_.bind(this.handleSuccess, this)).fail(this.handleFailure);
   };
 
   Databound.prototype.handleSuccess = function(resp) {
