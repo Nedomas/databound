@@ -143,7 +143,7 @@ Databound = (function() {
   };
 
   Databound.prototype.handleFailure = function(e) {
-    if (e.status === 405) {
+    if (e.status === DataboundError.STATUS) {
       throw new DataboundError(e.responseJSON.message);
     } else {
       throw new Error("Error in the backend with status " + e.status);
@@ -165,6 +165,8 @@ DataboundError = (function() {
   function DataboundError(text) {
     this.message = "Databound: " + text;
   }
+
+  DataboundError.STATUS = 405;
 
   return DataboundError;
 

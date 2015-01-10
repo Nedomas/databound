@@ -10,7 +10,6 @@ global.mockDOM = (fn) ->
         console.log(err)
 
       global.window = window
-      global._ = require('lodash')
       global.chai = require 'chai'
       global.expect = chai.expect
 
@@ -19,23 +18,26 @@ global.mockDOM = (fn) ->
       global.User = new Databound('users')
 
       fn()
-
       window.close()
   )
+
 
 global.stubResponse = (resp, fn, type = 'resolve') ->
   mockDOM ->
     sinon = require('sinon')
-    jQuery = require 'jquery'
     _.each ['records', 'scoped_records'], stringify(resp)
+
+    jQuery = require 'jquery'
 
     stub = sinon.stub jQuery, 'post', ->
       deferred = jQuery.Deferred()
       deferred[type](resp)
       deferred.promise()
 
-    fn()
-    stub.restore()
+    try fn()
+    catch e
+      throw e unless e?.message
+    finally stub.restore()
 
 stringify = _.curry((resp, name) ->
   return unless _.isArray(resp?[name])

@@ -2,7 +2,7 @@
   "name": "databound",
   "version": "1.0.1",
   "author": "Domas Bitvinskas <domas.bitvinskas@me.com>",
-  "description": "Exposes Ruby on Rails database to the Javascript side",
+  "description": "Provides Javascript a simple API to the Ruby on Rails CRUD",
   "main": "dist/databound.js",
   "homepage": "https://github.com/Nedomas/databound",
   "repository": {

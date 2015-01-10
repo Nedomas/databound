@@ -103,7 +103,7 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
     <span class="hljs-property">@promise</span>(resp)
 
   <span class="hljs-attribute">handleFailure</span>: <span class="hljs-function"><span class="hljs-params">(e)</span> -&gt;</span>
-    <span class="hljs-keyword">if</span> e.status == <span class="hljs-number">405</span>
+    <span class="hljs-keyword">if</span> e.status == DataboundError.STATUS
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DataboundError(e.responseJSON.message)
     <span class="hljs-keyword">else</span>
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Error in the backend with status <span class="hljs-subst">#{e.status}</span>"</span>
@@ -116,6 +116,8 @@ jQuery = <span class="hljs-built_in">require</span> <span class="hljs-string">'j
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataboundError</span></span>
   <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(text)</span> -&gt;</span>
     <span class="hljs-property">@message</span> = <span class="hljs-string">"Databound: <span class="hljs-subst">#{text}</span>"</span>
+
+  <span class="hljs-property">@STATUS</span>: <span class="hljs-number">405</span>
 
 <span class="hljs-attribute">DataboundError</span>:: = <span class="hljs-keyword">new</span> Error()
 
