@@ -38,10 +38,13 @@ class Databound
   where: (params) ->
     _this = @
 
-    @request('where', params).then (records) ->
-      records = records.concat(_this.seeds)
+    @wrappedRequest('where', params).then (resp) ->
+      records = JSON.parse(resp.records).concat(_this.seeds)
       _this.records = _.sortBy(records, 'id')
       _this.promise _this.records
+
+  all: ->
+    @where()
 
   # Return a single record by ``id``
   #
@@ -50,10 +53,16 @@ class Databound
   #   alert "Yo, #{user.name}"
   # ```
   find: (id) ->
-    _this = @
+    @checkUndefinedId('find', id)
 
+    _this = @
     @where(id: id).then ->
-      _this.promise _this.take(id)
+      record = _this.take(id)
+
+      unless record
+        throw new DataboundError("Couldn't find record with id: #{id}")
+
+      _this.promise record
 
   # Return a single record by ``params``
   #
@@ -85,6 +94,7 @@ class Databound
     @requestAndRefresh 'update', params
 
   destroy: (id) ->
+    @checkUndefinedId('destroy', id)
     @requestAndRefresh 'destroy', id: id
 
   # Just take already dowloaded records
@@ -111,9 +121,7 @@ class Databound
     #     scoped_records: []
     #   }
     # ```
-    @request(action, params).then (resp) ->
-      throw new Error 'Error in the backend' unless resp?.success
-
+    @wrappedRequest(action, params).then (resp) ->
       records = JSON.parse(resp.scoped_records)
       records_with_seeds = records.concat(_this.seeds)
       _this.records = _.sortBy(records_with_seeds, 'id')
@@ -133,5 +141,32 @@ class Databound
     scope: JSON.stringify(@scope)
     extra_where_scopes: JSON.stringify(@extra_where_scopes)
     data: JSON.stringify(params)
+
+  wrappedRequest: (args...) ->
+    @request(args...).then(_.bind(@handleSuccess, @)).fail(@handleFailure)
+
+  handleSuccess: (resp) ->
+    throw new Error 'Error in the backend' unless resp?.success
+
+    @promise(resp)
+
+  handleFailure: (e) ->
+    if e.status == DataboundError.STATUS
+      throw new DataboundError(e.responseJSON.message)
+    else
+      throw new Error "Error in the backend with status #{e.status}"
+
+  checkUndefinedId: (action, id) ->
+    return unless _.isUndefined(id)
+
+    throw new DataboundError("Couldn't #{action} a record without an id")
+
+class DataboundError
+  constructor: (text) ->
+    @message = "Databound: #{text}"
+
+  @STATUS: 405
+
+DataboundError:: = new Error()
 
 module.exports = Databound

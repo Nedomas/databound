@@ -1,4 +1,5 @@
-var Databound;
+var Databound, DataboundError,
+  __slice = [].slice;
 
 Databound = (function() {
   function Databound(endpoint, scope, options) {
@@ -27,20 +28,31 @@ Databound = (function() {
   Databound.prototype.where = function(params) {
     var _this;
     _this = this;
-    return this.request('where', params).then(function(records) {
-      records = records.concat(_this.seeds);
+    return this.wrappedRequest('where', params).then(function(resp) {
+      var records;
+      records = JSON.parse(resp.records).concat(_this.seeds);
       _this.records = _.sortBy(records, 'id');
       return _this.promise(_this.records);
     });
   };
 
+  Databound.prototype.all = function() {
+    return this.where();
+  };
+
   Databound.prototype.find = function(id) {
     var _this;
+    this.checkUndefinedId('find', id);
     _this = this;
     return this.where({
       id: id
     }).then(function() {
-      return _this.promise(_this.take(id));
+      var record;
+      record = _this.take(id);
+      if (!record) {
+        throw new DataboundError("Couldn't find record with id: " + id);
+      }
+      return _this.promise(record);
     });
   };
 
@@ -61,6 +73,7 @@ Databound = (function() {
   };
 
   Databound.prototype.destroy = function(id) {
+    this.checkUndefinedId('destroy', id);
     return this.requestAndRefresh('destroy', {
       id: id
     });
@@ -83,11 +96,8 @@ Databound = (function() {
   Databound.prototype.requestAndRefresh = function(action, params) {
     var _this;
     _this = this;
-    return this.request(action, params).then(function(resp) {
+    return this.wrappedRequest(action, params).then(function(resp) {
       var records, records_with_seeds;
-      if (!(resp != null ? resp.success : void 0)) {
-        throw new Error('Error in the backend');
-      }
       records = JSON.parse(resp.scoped_records);
       records_with_seeds = records.concat(_this.seeds);
       _this.records = _.sortBy(records_with_seeds, 'id');
@@ -115,6 +125,47 @@ Databound = (function() {
     };
   };
 
+  Databound.prototype.wrappedRequest = function() {
+    var args;
+    args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    return this.request.apply(this, args).then(_.bind(this.handleSuccess, this)).fail(this.handleFailure);
+  };
+
+  Databound.prototype.handleSuccess = function(resp) {
+    if (!(resp != null ? resp.success : void 0)) {
+      throw new Error('Error in the backend');
+    }
+    return this.promise(resp);
+  };
+
+  Databound.prototype.handleFailure = function(e) {
+    if (e.status === DataboundError.STATUS) {
+      throw new DataboundError(e.responseJSON.message);
+    } else {
+      throw new Error("Error in the backend with status " + e.status);
+    }
+  };
+
+  Databound.prototype.checkUndefinedId = function(action, id) {
+    if (!_.isUndefined(id)) {
+      return;
+    }
+    throw new DataboundError("Couldn't " + action + " a record without an id");
+  };
+
   return Databound;
 
 })();
+
+DataboundError = (function() {
+  function DataboundError(text) {
+    this.message = "Databound: " + text;
+  }
+
+  DataboundError.STATUS = 405;
+
+  return DataboundError;
+
+})();
+
+DataboundError.prototype = new Error();

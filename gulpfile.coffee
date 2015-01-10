@@ -7,8 +7,11 @@ mocha = require 'gulp-mocha'
 watch = require 'gulp-watch'
 replace = require 'gulp-replace'
 rename = require 'gulp-rename'
+uglify = require 'gulp-uglify'
+chai = require 'chai'
+sinonChai = require 'sinon-chai'
 
-gulp.task 'default', ['build', 'docs']
+gulp.task 'default', ['build', 'docs', 'uglify']
 
 gulp.task 'watch', ->
   gulp.watch('./src/*.coffee', ['default'])
@@ -30,10 +33,19 @@ gulp.task 'build', ['coffee'], ->
     .pipe(rename('databound-standalone.js'))
     .pipe(gulp.dest('./dist/'))
 
+gulp.task 'uglify', ['build'], ->
+  gulp
+    .src('./dist/databound-standalone.js')
+    .pipe(uglify())
+    .pipe(rename('databound-standalone.min.js'))
+    .pipe(gulp.dest('./dist/'))
+
 gulp.task 'docs', shell.task('node_modules/groc/bin/groc src/*.coffee')
 
 gulp.task 'test', ->
-  gulp.src('test/**/*.coffee',
-      read: false
-  )
-  .pipe(mocha(ui: 'bdd'))
+  chai.use(sinonChai)
+  global.expect = chai.expect
+  gulp.src('spec/**/*.coffee', read: false)
+  .pipe(mocha(
+    reporter: 'spec'
+  ).on('error', gutil.log))
