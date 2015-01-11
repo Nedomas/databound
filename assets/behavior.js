@@ -6,53 +6,43 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   tableOfContents = [
     {
-      "type": "folder",
+      "type": "file",
       "data": {
-        "path": "src",
-        "title": "src"
+        "language": {
+          "nameMatchers": [".coffee", "Cakefile"],
+          "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
+          "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
+          "name": "CoffeeScript"
+        },
+        "sourcePath": "/home/domas/Developer/databound/src/databound.coffee",
+        "projectPath": "src/databound.coffee",
+        "targetPath": "databound",
+        "pageTitle": "databound",
+        "title": "databound"
       },
       "depth": 1,
-      "children": [
+      "outline": [
         {
-          "type": "file",
+          "type": "heading",
           "data": {
-            "language": {
-              "nameMatchers": [".coffee", "Cakefile"],
-              "pygmentsLexer": "coffee-script",
-              "highlightJS": "coffeescript",
-              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
-              "strictMultiLineEnd": false,
-              "singleLineComment": ["#"],
-              "ignorePrefix": "}",
-              "foldPrefix": "^",
-              "name": "CoffeeScript"
-            },
-            "sourcePath": "/home/domas/Developer/databound/src/databound.coffee",
-            "projectPath": "src/databound.coffee",
-            "targetPath": "src/databound",
-            "pageTitle": "src/databound",
-            "title": "databound"
+            "level": 2,
+            "title": "Start of Configs",
+            "slug": "start-of-configs"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Start of Configs",
-                "slug": "start-of-configs"
-              },
-              "depth": 2
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "End of Configs",
-                "slug": "end-of-configs"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "End of Configs",
+            "slug": "end-of-configs"
+          },
+          "depth": 2
         }
       ]
     }
