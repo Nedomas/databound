@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '3.1.0'
+gem 'databound', '3.1.1'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -185,6 +185,9 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 
 * Associations.
 * Your contribution here.
+
+**3.1.1** - 2015-02-10
+* Fix ``where`` bug which did to take into account the ``extra_where_scopes``.
 
 **3.1.0** - 2015-01-10
 * Friendly error messages in development environment.
