@@ -54,7 +54,7 @@ You can use your own library instead. Read [API docs](http://nedomas.github.io/d
 
 **1 - Gemfile**
 ```ruby
-gem 'databound', '3.1.2'
+gem 'databound', '3.1.3'
 ```
 
 **2.1 - With asset pipeline (sprockets)**
@@ -185,6 +185,9 @@ If you don't want to use that, you can overwrite ``as_json`` method on the model
 
 * Associations.
 * Your contribution here.
+
+**3.1.3** - 2015-04-10
+* Fix Postgresql bug introduced with ``3.1.2``. Do it [@remigijusj](https://github.com/remigijusj) ``bind_values`` way.
 
 **3.1.2** - 2015-04-10
 * Fix bug introduced with Rails 4.2 ``AdequateRecord`` update - AREL query API changed. Thanks to [@remigijusj](https://github.com/remigijusj) who patched it (https://github.com/Nedomas/databound-rails/issues/2).
