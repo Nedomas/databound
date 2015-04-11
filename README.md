@@ -237,4 +237,5 @@ end
 
 ## Used and sponsored by
 
+[![closeheat](https://cloud.githubusercontent.com/assets/1877286/7101371/363a6d22-e057-11e4-918b-dee71676d16b.png)](http://closeheat.com)
 [![SameSystem](https://cloud.githubusercontent.com/assets/1877286/5602104/d8e44986-933f-11e4-8e64-b0c8e83a94d1.jpg)](http://samesystem.com) [![picnic-right](https://cloud.githubusercontent.com/assets/1877286/5602105/dab01272-933f-11e4-9aab-624ba81825d9.png)](http://spacepicnic.net)
